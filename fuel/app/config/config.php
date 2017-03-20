@@ -77,9 +77,9 @@ return array(
 	/**
 	 * Localization & internationalization settings
 	 */
-	// 'language'           => 'en', // Default language
-	// 'language_fallback'  => 'en', // Fallback language when file isn't available for default language
-	// 'locale'             => 'en_US', // PHP set_locale() setting, null to not set
+	'language'           => 'pl', // Default language
+	'language_fallback'  => 'en', // Fallback language when file isn't available for default language
+	'locale'             => null, //'en_US', // PHP set_locale() setting, null to not set
 
 	/**
 	 * Internal string encoding charset
@@ -113,12 +113,9 @@ return array(
 	 * Security settings
 	 */
 	'security' => array(
-		// 'csrf_autoload'            => false,
-		// 'csrf_autoload_methods'    => array('post', 'put', 'delete'),
-		// 'csrf_bad_request_on_fail' => false,
-		// 'csrf_auto_token'          => false,
-		// 'csrf_token_key'           => 'fuel_csrf_token',
-		// 'csrf_expiration'          => 0,
+		// 'csrf_autoload'    => false,
+		// 'csrf_token_key'   => 'fuel_csrf_token',
+		// 'csrf_expiration'  => 0,
 
 		/**
 		 * A salt to make sure the generated security tokens are not predictable
@@ -163,7 +160,7 @@ return array(
 		// 'htmlentities_flags' => ENT_QUOTES,
 
 		/**
-		 * Whether to encode HTML entities as well
+		 * Wether to encode HTML entities as well
 		 */
 		// 'htmlentities_double_encode' => false,
 
@@ -206,7 +203,7 @@ return array(
 	 */
 	// 'validation' => array(
 		/**
-		 * Whether to fallback to global when a value is not found in the input array.
+		 * Wether to fallback to global when a value is not found in the input array.
 		 */
 		// 'global_input_fallback' => true,
 	// ),
@@ -226,7 +223,7 @@ return array(
 		// 'case_sensitive' => true,
 
 		/**
-		 *  Whether to strip the extension
+		 *  Wether to strip the extension
 		 */
 		// 'strip_extension' => true,
 	// ),
@@ -240,9 +237,9 @@ return array(
 	 *
 	 * Paths MUST end with a directory separator (the DS constant)!
 	 */
-	// 'module_paths' => array(
-	// 	//APPPATH.'modules'.DS
-	// ),
+	 'module_paths' => array(
+	 	APPPATH.'modules'.DS
+	 ),
 
 	/**
 	 * To enable you to split up your additions to the framework, packages are
@@ -253,13 +250,14 @@ return array(
 	 * Paths MUST end with a directory separator (the DS constant)!
 	 */
 	'package_paths' => array(
-		PKGPATH,
+		PKGPATH
 	),
+
 
 	/**************************************************************************/
 	/* Always Load                                                            */
 	/**************************************************************************/
-	// 'always_load'  => array(
+	'always_load'  => array(
 
 		/**
 		 * These packages are loaded on Fuel's startup.
@@ -272,9 +270,11 @@ return array(
 		 *     array('auth'	=> PKGPATH.'auth/')
 		 * );
 		 */
-		// 'packages'  => array(
-		// 	//'orm',
-		// ),
+		'packages'  => array(
+			'auth',
+		 	'orm',
+			'email',
+		),
 
 		/**
 		 * These modules are always loaded on Fuel's startup. You can specify them
@@ -284,7 +284,9 @@ return array(
 		 *
 		 * A path must be set in module_paths for this to work.
 		 */
-		// 'modules'  => array(),
+		'modules'  => array(
+		 	'message',
+		 ),
 
 		/**
 		 * Classes to autoload & initialize even when not used
@@ -310,6 +312,6 @@ return array(
 		 * If you don't want the lang in a group use null as groupname.
 		 */
 		// 'language'  => array(),
-	// ),
+	 ),
 
 );
