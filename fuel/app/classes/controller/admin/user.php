@@ -12,7 +12,7 @@ class Controller_Admin_User extends Controller_Admin
 {
 	public function action_index()
 	{
-		if ($this->is_admin == false)
+		if (!Auth::has_access("right.admin"))
 			return Response::redirect('404');
 		
 		$user = Input::get('user');
@@ -57,7 +57,7 @@ class Controller_Admin_User extends Controller_Admin
 
 	public function action_delete($username)
 	{
-		if ($this->is_admin == false)
+		if (Auth::has_access("right.admin") == false)
 			return Response::redirect('404');
 
 		Auth::delete_user($username);
@@ -65,7 +65,7 @@ class Controller_Admin_User extends Controller_Admin
 	
 	public function action_edit($username)
 	{
-		if ($this->is_admin == false)
+		if (Auth::has_access("right.admin") == false)
 			return Response::redirect('404');
 
 		$groups_def = \Config::get('simpleauth.groups', false);

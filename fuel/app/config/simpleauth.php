@@ -112,7 +112,10 @@ return array(
 		 */
 			'#' => array('website' => array('read')),
 			'user' => array('book' => array('borrow')),
-			'librarian' => array('book' => array('create', 'update', 'delete')),
+			'librarian' => 
+				array(
+					'reader' => array('any', 'create','update'),
+					'book' => array('create', 'update', 'delete')),
 			'banned' => false,
 			'admin' => true,
 	),
