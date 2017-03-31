@@ -48,6 +48,11 @@ $type_choice = array(
 	<th class="col-sm-4"><?php echo $type_choice[$book->type]; ?></th>
 </tr>
 
+<tr>
+	<th class="col-sm-1 text-right">Stan</th>
+	<th class="col-sm-4"><?php echo $book->is_borrowed() ? "Wypożyczona" : "Dostępna"; ?></th>
+</tr>
+
 </table>
 
 <?php if (isset($return_url)) { ?>

@@ -111,11 +111,11 @@ return array(
 		 *   'super' => true,
 		 */
 			'#' => array('website' => array('read')),
-			'user' => array('book' => array('borrow')),
+			'user' => array('website' => array('read')),
 			'librarian' => 
 				array(
-					'reader' => array('any', 'create','update'),
-					'book' => array('create', 'update', 'delete')),
+					'reader' => array('read', 'create','update'),
+					'book' => array('create', 'update', 'delete', 'borrow')),
 			'banned' => false,
 			'admin' => true,
 	),

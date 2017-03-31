@@ -11,6 +11,11 @@ class Model_Book extends Orm\Model
 	protected static $_many_many = array('authors');
 	protected static $_has_many = array('comments');
 	
+	public function is_borrowed()
+	{
+		return Model_Borrow::is_borrowed($this->id);
+	}
+	
 	public static function has_tag($tag)
 	{
 		$exist = parent::find('first', array(
@@ -22,11 +27,19 @@ class Model_Book extends Orm\Model
 		return ($exist != null);
 	}
 	
+	public static function get_by_tag($tag)
+	{
+		return parent::find('first', array(
+				'where' => array(
+						array('tag', $tag)
+				)));
+	}
+	
 	public function get_authors()
 	{
 		return parent::query()->where('id','=', $this->id)->related('authors')->get();
 	}
-
+	
 	public static function count_like_title_author($title, $author, $type)
 	{
 		if ($type == 'x') {

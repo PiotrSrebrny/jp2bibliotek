@@ -17,7 +17,7 @@ class Controller_Newaccount extends Controller_Template
 	public function action_index()
 	{
 		if (Auth::check())
-			Response::redirect('home');
+			Response::redirect('login');
 
 		$account_form = Fieldset::forge();
 

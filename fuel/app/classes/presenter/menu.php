@@ -18,7 +18,7 @@ class Presenter_Menu extends Presenter
 				array_push($this->tabs, array('url' => 'addbook', 'name' => 'Dodaj książke'));
 			
 			if (Auth::has_access('right.admin') ||
-				Auth::has_access('reader.any'))
+				Auth::has_access('reader.read'))
 				array_push($this->tabs, array('url' => 'admin', 'name' => 'Panel'));
 			
 			array_push($this->tabs, array('url' => 'account', 'name' => 'Moje konto'));

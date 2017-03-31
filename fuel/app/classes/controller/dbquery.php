@@ -19,7 +19,7 @@ class Controller_Dbquery extends Controller
 		
 		$response = '<script>var auto=[';
 		foreach ($books as $book)
-			$response .= '{"label" : "' . $book['title'] . '"},';
+			$response .= '{"label" : "' . $book->title . '"},';
 		$response .= '];</script>';
 		
 		return Response::forge($response);
@@ -31,7 +31,7 @@ class Controller_Dbquery extends Controller
 		
 		$response = '<script>var auto=[';
 		foreach ($authors as $author)
-			$response .= '{"label" : "' . $author['name'] . '"},';
+			$response .= '{"label" : "' . $author->name . '"},';
 		$response .= '];</script>';
 		
 		return Response::forge($response);
@@ -41,6 +41,21 @@ class Controller_Dbquery extends Controller
 	{
 		$last_tag = Model_Book::get_last_tag($type);		
 	
-	  return Response::forge($last_tag);
+		return Response::forge($last_tag);
+	}
+	
+	public function action_readers($name)
+	{
+		if (!Auth::has_access("book.borrow"))
+			return Response::redirect('404');
+		
+		$readers = Model_Reader::get_by_name_subset($name, 0, 4);
+		
+		$response = '<script>var auto=[';
+		foreach ($readers as $reader)
+			$response .= '{"label" : "' . $reader->name . ' (' . $reader->birth_date . ')"},';
+		$response .= '];</script>';
+		
+		return Response::forge($response);
 	}
 }

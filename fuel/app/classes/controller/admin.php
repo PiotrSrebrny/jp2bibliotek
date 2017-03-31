@@ -22,10 +22,13 @@ class Controller_Admin extends Controller_Template
 	
 	public function action_index()
 	{
-		if (!Auth::has_access("reader.any"))
-			return Response::redirect("404");
+		$this->template->content = "";
 		
-		$this->template->content = Html::anchor("admin/reader", '<h4>Czytelnicy</h4>');
+		if (Auth::has_access("reader.read"))
+			$this->template->content .= Html::anchor("admin/reader", '<h4>Czytelnicy</h4>');
+		
+		if (Auth::has_access("book.borrow"))
+			$this->template->content .= Html::anchor("admin/borrow", '<h4>Książki</h4>');
 		
 	    if (Auth::has_access("right.admin"))
 			$this->template->content .= Html::anchor("admin/user", '<h4>Użytkownicy</h4>');
