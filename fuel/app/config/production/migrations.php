@@ -9,6 +9,9 @@ return array(
         0 => '001_bookdb_create_booktable',
         1 => '002_bookdb_create_authortable',
         2 => '003_bookdb_create_authorsbookstable',
+        3 => '004_bookdb_create_commenttable',
+        4 => '005_bookdb_create_readertable',
+        5 => '006_bookdb_create_borrowtable',
       ),
     ),
     'module' => 
