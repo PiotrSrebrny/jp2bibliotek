@@ -115,7 +115,7 @@ return array(
 			'librarian' => 
 				array(
 					'reader' => array('read', 'create','update'),
-					'book' => array('create', 'update', 'delete', 'borrow')),
+					'book' => array('add', 'update', 'delete', 'borrow')),
 			'banned' => false,
 			'admin' => true,
 	),

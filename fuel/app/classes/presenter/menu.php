@@ -10,13 +10,10 @@ class Presenter_Menu extends Presenter
 		$this->current_url = Uri::segment(1);
 		$this->tabs = array();
 		
-		array_push($this->tabs, array('url' => 'home', 'name' => 'Start'));
-		array_push($this->tabs, array('url' => 'book/search', 'name' => 'Szukaj'));
+//		array_push($this->tabs, array('url' => 'home', 'name' => 'Start'));
+		array_push($this->tabs, array('url' => 'book', 'name' => 'Książki'));
 		
 		if (Auth::check()) {
-			if (Auth::has_access('book.create'))
-				array_push($this->tabs, array('url' => 'book/add', 'name' => 'Dodaj książke'));
-			
 			if (Auth::has_access('right.admin') ||
 				Auth::has_access('reader.read'))
 				array_push($this->tabs, array('url' => 'admin', 'name' => 'Panel'));
@@ -27,6 +24,6 @@ class Presenter_Menu extends Presenter
 		} else {
 			array_push($this->tabs, array('url' => 'newaccount', 'name' => 'Nowe konto'));
 			array_push($this->tabs, array('url' => 'login', 'name' => 'Zaloguj'));
-		}		
+		}
 	}
 }
