@@ -11,11 +11,13 @@ class Model_Book extends Orm\Model
 	protected static $_many_many = array('authors');
 	protected static $_has_many = array('comments');
 	
+	/************************************************************************/
 	public function is_borrowed()
 	{
 		return Model_Borrow::is_borrowed($this->id);
 	}
 	
+	/************************************************************************/
 	public static function has_tag($tag)
 	{
 		$exist = parent::find('first', array(
@@ -27,6 +29,7 @@ class Model_Book extends Orm\Model
 		return ($exist != null);
 	}
 	
+	/************************************************************************/
 	public static function get_by_tag($tag)
 	{
 		return parent::find('first', array(
@@ -35,29 +38,17 @@ class Model_Book extends Orm\Model
 				)));
 	}
 	
+	/************************************************************************/
 	public function get_authors()
 	{
-		return parent::query()->where('id','=', $this->id)->related('authors')->get();
+		return parent::query()
+			->where('id','=', $this->id)
+			->related('authors')
+			->get();
 	}
 	
-	public static function count_like_title_author($title, $author, $type)
-	{
-		if ($type == 'x') {
-			return parent::query()
-				->where('title', 'like', '%'.$title.'%')
-				->related('authors')
-					->where('authors.name', 'like', '%'.$author.'%')
-				->count();
-		} else {
-			return parent::query()
-				->where('title', 'like', '%'.$title.'%')
-				->where('type', '=', $type)
-				->related('authors')
-					->where('authors.name', 'like', '%'.$author.'%')
-				->count();
-		}
-	}
 	
+	/************************************************************************/
 	public static function find_by_some_chars($title, $num)
 	{
 		return parent::query()
@@ -67,6 +58,7 @@ class Model_Book extends Orm\Model
 			->get();
 	}
 	
+	/************************************************************************/
 	public static function get_last_tag($type)
 	{
 		$last_book = parent::find('last', array(
@@ -76,6 +68,22 @@ class Model_Book extends Orm\Model
 			));
 		
 		return $last_book['tag'];
+	}
+	
+	/************************************************************************/
+	public static function query_like($title, $author, $type)
+	{
+		$query = parent::query();
+		$query = $query->where('title', 'like', '%'.$title.'%');
+		
+ 		if ($type != 'x') {
+ 			$query = $query->where('type', '=', $type);
+ 		}
+			
+		$query = $query->related('authors')
+					->where('authors.name', 'like', '%'.$author.'%');
+		
+		return $query;
 	}
 }
 

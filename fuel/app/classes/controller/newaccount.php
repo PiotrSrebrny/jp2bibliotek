@@ -19,19 +19,19 @@ class Controller_Newaccount extends Controller_Template
 		if (Auth::check())
 			Response::redirect('login');
 
-		$account_form = Fieldset::forge();
+		$form = Fieldset::forge();
 
-		$account_form->form()->set_attribute('class', 'form-horizontal');
+		$form->form()->set_attribute('class', 'form-horizontal');
 
-		$account_form->add('username', 'Użytkownik', array('class' => 'form-control'));
-		$account_form->add('fullname', 'Imię i nazwisko', array('class' => 'form-control'));
-		$account_form->add('pass', 'Hasło', array('class' => 'form-control', 'type' => 'password'));
-		$account_form->add('pass_rep', 'Hasło powtórz', array('class' => 'form-control', 'type' => 'password'));
-		$account_form->add('email', 'Email', array('class' => 'form-control'));
-		$account_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Stwórz', 'class' => 'btn btn-primary'));
+		$form->add('username', 'Użytkownik', array('class' => 'form-control'));
+		$form->add('fullname', 'Imię i nazwisko', array('class' => 'form-control'));
+		$form->add('pass', 'Hasło', array('class' => 'form-control', 'type' => 'password'));
+		$form->add('pass_rep', 'Hasło powtórz', array('class' => 'form-control', 'type' => 'password'));
+		$form->add('email', 'Email', array('class' => 'form-control'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Stwórz', 'class' => 'btn btn-primary'));
 
  		if (Input::post()) {
-			$val = Validation::forge($account_form);
+			$val = Validation::forge($form);
 			
 			$val->field('username')->add_rule('required');
 			$val->field('fullname')
@@ -54,11 +54,11 @@ class Controller_Newaccount extends Controller_Template
 				try
 				{
 					$created = \Auth::create_user(
-						$account_form->validated('username'),
-						$account_form->validated('pass'),
-						$account_form->validated('email'),
+						$form->validated('username'),
+						$form->validated('pass'),
+						$form->validated('email'),
 						1, /* Assign a user to the user group (Banned) */
-						array('fullname' => $account_form->validated('fullname'))
+						array('fullname' => $form->validated('fullname'))
 					);
 				
 					// if a user was created succesfully
@@ -89,10 +89,9 @@ class Controller_Newaccount extends Controller_Template
 			}
 		}
 		
-		$account_form->repopulate();
-		
+		$form->repopulate();
 
-		$this->template->content = $account_form;
+		$this->template->content = $form;
 		$this->template->title = 'Ustawienia konta';
 	}
 }

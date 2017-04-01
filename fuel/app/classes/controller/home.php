@@ -12,7 +12,7 @@ class Controller_Home extends Controller_Template
 	{
 		$this->template->content = 
 			View::forge('home')
-				->set('comments', Model_Comment::query()->order_by('updated_at', 'DESC')->limit(4)->get());
+				->set('comments', Model_Comment::get_all_limit(4));
 	}
 	
 	public function action_404()

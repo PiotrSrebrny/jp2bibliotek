@@ -55,16 +55,16 @@ class Controller_Admin_Borrow extends Controller_Admin
 		if ($borrow == null)
 			return Response::redirect('404');
 		
-		$edit_form = Fieldset::forge();
-		$edit_form->form()->set_attribute('class', 'form-horizontal');
-		$edit_form->add('book_tag', 'Identyfikator książki', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$edit_form->add('book', 'Tytuł książki', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$edit_form->add('reader', 'Czytelnik', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$edit_form->add('borrowed_at', 'Pożyczono dnia', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form = Fieldset::forge();
+		$form->form()->set_attribute('class', 'form-horizontal');
+		$form->add('book_tag', 'Identyfikator książki', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('book', 'Tytuł książki', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('reader', 'Czytelnik', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('borrowed_at', 'Pożyczono dnia', array('class' => 'form-control', 'readonly' => 'readonly'));
 		if ($borrow->returned_at != 0)
-		$edit_form->add('returned_at', 'Oddano dnia', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$edit_form->add('comment', 'Komentarz', array('class' => 'form-control'));
-		$edit_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-primary'));
+			$form->add('returned_at', 'Oddano dnia', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('comment', 'Komentarz', array('class' => 'form-control'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-primary'));
 
 		if (Input::post()) {
 			$borrow->comment = Input::post('comment');
@@ -82,10 +82,10 @@ class Controller_Admin_Borrow extends Controller_Admin
 				'comment' => $borrow->comment
 		);
 		
-		$edit_form->populate($input);
+		$form->populate($input);
 		
 		
-		$this->template->content = $edit_form;
+		$this->template->content = $form;
 		$this->template->title = 'Edytuj komentarz';
 	}
 	
@@ -141,15 +141,15 @@ class Controller_Admin_Borrow extends Controller_Admin
 	
 	public function action_borrow()
 	{
-		$borrow_form = Fieldset::forge();
-		$borrow_form->form()->set_attribute('class', 'form-horizontal');
-		$borrow_form->add('book_tag', 'Identyfikator książki', array('class' => 'form-control'));
-		$borrow_form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers\')'));
-		$borrow_form->add('comment', 'Komentarz', array('class' => 'form-control'));
-		$borrow_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Pożycz', 'class' => 'btn btn-primary'));
+		$form = Fieldset::forge();
+		$form->form()->set_attribute('class', 'form-horizontal');
+		$form->add('book_tag', 'Identyfikator książki', array('class' => 'form-control'));
+		$form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers\')'));
+		$form->add('comment', 'Komentarz', array('class' => 'form-control'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Pożycz', 'class' => 'btn btn-primary'));
 
 		if (Input::post()) {
-			$val = Validation::forge($borrow_form);
+			$val = Validation::forge($form);
 		
 			$val->add_callable('ValidationRules');
 			$val->field('reader')
@@ -165,9 +165,9 @@ class Controller_Admin_Borrow extends Controller_Admin
 			}
 		}
 		
-		$borrow_form->repopulate();
+		$form->repopulate();
 		
-		$this->template->content = $borrow_form;
+		$this->template->content = $form;
 		$this->template->title = 'Wypożycz książkę';
 	}
 	

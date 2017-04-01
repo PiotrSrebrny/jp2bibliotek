@@ -14,6 +14,14 @@ class Model_Comment extends Orm\Model
 	protected static $_observers = array(
 			'Orm\\Observer_CreatedAt', 
 			'Orm\\Observer_UpdatedAt');
+	
+	static public function get_all_limit($n) 
+	{
+		parent::query()
+			->order_by('updated_at', 'DESC')
+			->limit($n)
+			->get();
+	}
 }
 
 ?>

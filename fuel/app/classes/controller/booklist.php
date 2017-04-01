@@ -17,21 +17,10 @@ class Controller_Booklist extends Controller_Template
 		$title = Input::get('title');
 		$author = Input::get('author');
 		$type = Input::get('type');
+		
+		var_dump($type);
 
-		if ($type == 'x') {
-			$books_count = Model_Book::query()
-				->where('title', 'like', '%'.$title.'%')
-					->related('authors')
-					->where('authors.name', 'like', '%'.$author.'%')
-				->count();
-		} else {
-			$books_count = Model_Book::query()
-				->where('title', 'like', '%'.$title.'%')
-				->where('type', '=', $type)
-					->related('authors')
-					->where('authors.name', 'like', '%'.$author.'%')
-				->count();
-		}
+		$books_count = Model_Book::query_like($title, $author, $type)->count();
 		
 		$num_links = 8;
 		$show_first_and_last =  ($books_count / 10) > $num_links;
@@ -52,28 +41,12 @@ class Controller_Booklist extends Controller_Template
 			default:       $order_type = DB::expr('LENGTH(tag), tag'); break;
 		}
 		
-		if ($type != 'x') {
-			$books = Model_Book::query()
-					->where('title', 'like', '%'.$title.'%')
-					->where('type', '=', $type)
-					->related('authors')
-						->where('authors.name', 'like', '%'.$author.'%')
-						->order_by($order_type)
-					->rows_offset($pagination->offset)
-					->rows_limit($pagination->per_page)
-					->group_by('tag')
+		$books = 
+			Model_Book::query_like($title, $author, $type)
+				->rows_offset($pagination->offset)
+				->rows_limit($pagination->per_page)
+				->order_by($order_type)
 				->get();
-		} else {
-			$books = Model_Book::query()
-					->where('title', 'like', '%'.$title.'%')
-					->related('authors')
-						->where('authors.name', 'like', '%'.$author.'%')
-						->order_by($order_type)
-					->rows_offset($pagination->offset)
-					->rows_limit($pagination->per_page)
-					->group_by('tag')
-				->get();
-		}
 			
 		/* 
 		 * Have to go through book authors,

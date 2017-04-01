@@ -79,13 +79,13 @@ class Controller_Admin_User extends Controller_Admin
 		}
 		$user = Model\Auth_User::query()->where('username', $username)->get_one();
 		
-		$user_form = Fieldset::forge();
-		$user_form->form()->set_attribute('class', 'form-horizontal');
+		$form = Fieldset::forge();
+		$form->form()->set_attribute('class', 'form-horizontal');
 	
-		$user_form->add('fullname', 'Imię/nazwisko', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$user_form->add('email', 'Email', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$user_form->add('group', 'Grupa', array('class' => 'form-control', 'options' => $group_names, 'type' => 'select'));
-		$user_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-primary'));
+		$form->add('fullname', 'Imię/nazwisko', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('email', 'Email', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('group', 'Grupa', array('class' => 'form-control', 'options' => $group_names, 'type' => 'select'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-primary'));
 		
 		$fullname = $user->profile_fields['fullname'];
 	
@@ -95,19 +95,19 @@ class Controller_Admin_User extends Controller_Admin
 				'fullname' => $fullname,
 		);
 		
-		$user_form->populate($input);
+		$form->populate($input);
 		
 		if (Input::post())
 		{
-			$user->group = $user_form->field('group')->input();
+			$user->group = $form->field('group')->input();
 			$user->save();
 					
 			\Message\Message::add_success('Zmieniono grupę');
 		}
 		
-		$user_form->field('group')->set_value($user->get_group());
+		$form->field('group')->set_value($user->get_group());
 		
 		$this->template->title = 'Użytkownik ' . $username;
-		$this->template->content = $user_form;
+		$this->template->content = $form;
 	}
 }
