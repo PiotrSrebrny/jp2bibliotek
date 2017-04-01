@@ -11,11 +11,11 @@ class Presenter_Menu extends Presenter
 		$this->tabs = array();
 		
 		array_push($this->tabs, array('url' => 'home', 'name' => 'Start'));
-		array_push($this->tabs, array('url' => 'search', 'name' => 'Szukaj'));
+		array_push($this->tabs, array('url' => 'book/search', 'name' => 'Szukaj'));
 		
 		if (Auth::check()) {
 			if (Auth::has_access('book.create'))
-				array_push($this->tabs, array('url' => 'addbook', 'name' => 'Dodaj książke'));
+				array_push($this->tabs, array('url' => 'book/add', 'name' => 'Dodaj książke'));
 			
 			if (Auth::has_access('right.admin') ||
 				Auth::has_access('reader.read'))

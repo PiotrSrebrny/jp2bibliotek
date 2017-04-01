@@ -61,20 +61,20 @@ class Controller_Account extends Controller_Template
 		if (!Auth::check())
 			Response::redirect('home');
 		
-		$account_form = Fieldset::forge();
+		$form = Fieldset::forge();
 		
-		$account_form->form()->set_attribute('class', 'form-horizontal');
+		$form->form()->set_attribute('class', 'form-horizontal');
 		
-		$account_form->add('username', 'Użytkownik', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$account_form->add('fullname', 'Imię/nazwisko', array('class' => 'form-control'));
-		$account_form->add('email', 'Email', array('class' => 'form-control'));
-		$account_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-success'));
+		$form->add('username', 'Użytkownik', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('fullname', 'Imię/nazwisko', array('class' => 'form-control'));
+		$form->add('email', 'Email', array('class' => 'form-control'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-success'));
 		
 		if (Input::post()) {
 		
 			Auth::update_user(array(
-				'email' => $account_form->input('email'),
-				'fullname' => $account_form->input('fullname')
+				'email' => $form->input('email'),
+				'fullname' => $form->input('fullname')
 				));
 		
 			\Message\Message::add_success('Zaktualizowano ustawienia konta');
@@ -90,9 +90,9 @@ class Controller_Account extends Controller_Template
 				'fullname' => isset($profile_fields['fullname']) ? $profile_fields['fullname'] : '',
 		);
 		
-		$account_form->populate($input);
+		$form->populate($input);
 		
-		$this->template->content = $account_form;
+		$this->template->content = $form;
 		$this->template->title = 'Ustawienia konta';
 	}
 	
@@ -101,16 +101,16 @@ class Controller_Account extends Controller_Template
 		if (!Auth::check())
 			Response::redirect('home');
 
-		$account_form = Fieldset::forge();
+		$form = Fieldset::forge();
 		
-		$account_form->form()->set_attribute('class', 'form-horizontal');
+		$form->form()->set_attribute('class', 'form-horizontal');
 		
-		$account_form->add('old_password', 'Stare hasło', array('class' => 'form-control', 'type' => 'password'));
-		$account_form->add('password', 'Nowe hasło', array('class' => 'form-control', 'type' => 'password'));
-		$account_form->add('password_rep', 'Powtórz hasło', array('class' => 'form-control', 'type' => 'password'));
-		$account_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zaktualizuj', 'class' => 'btn btn-primary'));
+		$form->add('old_password', 'Stare hasło', array('class' => 'form-control', 'type' => 'password'));
+		$form->add('password', 'Nowe hasło', array('class' => 'form-control', 'type' => 'password'));
+		$form->add('password_rep', 'Powtórz hasło', array('class' => 'form-control', 'type' => 'password'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zaktualizuj', 'class' => 'btn btn-primary'));
 		
-		$val = Validation::forge($account_form);
+		$val = Validation::forge($form);
 			
 		$val->field('old_password')->add_rule('required');
 		$val->field('password')->add_rule('required');
@@ -123,8 +123,8 @@ class Controller_Account extends Controller_Template
 			} else {
 				try {
 					\Auth::update_user(array(
-						'old_password' => $account_form->input('old_password'),
-						'password' => $account_form->input('password')
+						'old_password' => $form->input('old_password'),
+						'password' => $form->input('password')
 					));
 				} catch (Exception $e) {
 					if ($e->getCode() == 6) 
@@ -143,7 +143,7 @@ class Controller_Account extends Controller_Template
 				
 		$profile_fields = Auth::get_profile_fields();
 		
-		$this->template->content = $account_form;
+		$this->template->content = $form;
 		$this->template->title = 'Ustawienia konta';
 	}
 }

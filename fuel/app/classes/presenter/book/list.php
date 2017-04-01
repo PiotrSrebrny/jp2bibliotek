@@ -1,7 +1,7 @@
 <?php
 
 use Auth\Auth;
-class Presenter_Booklist extends Presenter
+class Presenter_Book_List extends Presenter
 {
 	public function view()
 	{

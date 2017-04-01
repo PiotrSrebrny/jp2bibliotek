@@ -33,6 +33,7 @@
 </table>
 
 <?php echo $buttons; ?>
+
 <br>
 
 <!--  List borrowed books only if any -->

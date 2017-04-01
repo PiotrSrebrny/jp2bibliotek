@@ -1,6 +1,6 @@
 <?php
 
-class Presenter_Form_Bookedit extends Presenter
+class Presenter_Book_Edit extends Presenter
 {
 	public function view()
 	{

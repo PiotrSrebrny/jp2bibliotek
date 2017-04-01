@@ -108,18 +108,18 @@ class Controller_Login extends Controller_Template
 				Message::add_success('Wysłano email z nowym hasłem');
 				
 		} else {
-			$account_form = Fieldset::forge();
+			$form = Fieldset::forge();
 			
-			$account_form->form()->set_attribute('class', 'form-horizontal');
-			$account_form->add('email', 'Email', array('class' => 'form-control'));
-			$account_form->add('submit', ' ', array(
+			$form->form()->set_attribute('class', 'form-horizontal');
+			$form->add('email', 'Email', array('class' => 'form-control'));
+			$form->add('submit', ' ', array(
 					'type' => 'submit', 
 					'value' => 'Wyślij', 
 					'class' => 'btn btn-primary'
 			));
 			
 			$this->template->title = 'Odzyskiwanie hasła';
-			$this->template->content = $account_form;
+			$this->template->content = $form;
 		}
 	}
 }

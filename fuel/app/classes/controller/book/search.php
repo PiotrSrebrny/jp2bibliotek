@@ -9,7 +9,7 @@ use Auth\Auth;
 use Model\Book;
 use Message\Message;
 
-class Controller_Search extends Controller_Template
+class Controller_Book_Search extends Controller_Template
 {	
 	public function action_index()
 	{
@@ -43,7 +43,7 @@ class Controller_Search extends Controller_Template
 								array('by' => 'title')
 				);
 				Message::add_success('Wyszukano ' . $books_count);
-				Response::redirect('booklist/index?' . $uri_query);
+				Response::redirect('book/list/index?' . $uri_query);
 			}
 			
 			Message::add_danger('Nie znaleziono książek o podanych kryteriach.');

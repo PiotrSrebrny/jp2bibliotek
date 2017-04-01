@@ -9,14 +9,14 @@ use Auth\Auth;
 use Message\Message;
 use Oil\Command;
 
-class Controller_Bookinfo extends Controller_Template
+class Controller_Book_Info extends Controller_Template
 {
 	/*
 	 * Helper function to get/store return URL
 	 */
 	private function get_return_url()
 	{
-		return 'booklist/index?' . Uri::build_query_string(Input::get());
+		return 'book/list/index?' . Uri::build_query_string(Input::get());
 	}
 	
 	private function get_my_url()
@@ -67,7 +67,7 @@ class Controller_Bookinfo extends Controller_Template
 			
 			$this->template->title = strlen($book->title) == 1 ? "Brak tytułu" : $book->title;
 			$this->template->content = 
-				Presenter::forge('bookinfo')
+				Presenter::forge('book/info')
 					->set('book', $book)
 					->set('user_id', $user_id)
 					->set('my_url', $this->get_my_url())
@@ -253,14 +253,14 @@ class Controller_Bookinfo extends Controller_Template
 				$data['error'] = $error;
 
 			$this->template->content = 
-				View::forge('form/bookedit', $data)
+				View::forge('book/edit', $data)
 					->set('return_url', $this->get_return_url())
 					->set('submit_url', Uri::current() . '?' . Uri::build_query_string(Input::get()));
 		 
 		}	else {
 				
 			$this->template->content = 
-				Presenter::forge('form/bookedit', 'view_from_db')
+				Presenter::forge('book/edit', 'view_from_db')
 					->set('book_id', $book_id)
 					->set('return_url', $this->get_return_url())
 					->set('submit_url', Uri::current() . '?'  . Uri::build_query_string(Input::get()));

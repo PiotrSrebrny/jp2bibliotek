@@ -20,10 +20,10 @@ class Controller_Admin_Reader extends Controller_Admin
 	
 	public function action_find()
 	{
-		$search_form = Fieldset::forge();
-		$search_form->form()->set_attribute('class', 'form-horizontal');
-		$search_form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers\')'));
-		$search_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Szukaj', 'class' => 'btn btn-primary'));
+		$form = Fieldset::forge();
+		$form->form()->set_attribute('class', 'form-horizontal');
+		$form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers\')'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Szukaj', 'class' => 'btn btn-primary'));
 		
 		if (Input::post()) {
 			$reader = Input::post('reader');
@@ -40,7 +40,7 @@ class Controller_Admin_Reader extends Controller_Admin
 		}
 		
 		$this->template->title = "Wyszukaj czytelnika";
-		$this->template->content = $search_form;
+		$this->template->content = $form;
 	}
 	
 	
@@ -84,19 +84,19 @@ class Controller_Admin_Reader extends Controller_Admin
 		if (!Auth::has_access("reader.create"))
 			return Response::redirect('404');
 
-		$account_form = Fieldset::forge();
+		$form = Fieldset::forge();
 		
-		$account_form->form()->set_attribute('class', 'form-horizontal');
+		$form->form()->set_attribute('class', 'form-horizontal');
 		
-		$account_form->add('id', 'Identyfikator', array('class' => 'form-control'));
-		$account_form->add('fullname', 'Imię i nazwisko', array('class' => 'form-control'));
-		$account_form->add('birth_date', 'Data urodzenia', array('class' => 'form-control'));
-		$account_form->add('phone', 'Telefon', array('class' => 'form-control'));
-		$account_form->add('comment', 'Komentarz', array('class' => 'form-control'));
-		$account_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Dodaj', 'class' => 'btn btn-primary'));
+		$form->add('id', 'Identyfikator', array('class' => 'form-control'));
+		$form->add('fullname', 'Imię i nazwisko', array('class' => 'form-control'));
+		$form->add('birth_date', 'Data urodzenia', array('class' => 'form-control'));
+		$form->add('phone', 'Telefon', array('class' => 'form-control'));
+		$form->add('comment', 'Komentarz', array('class' => 'form-control'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Dodaj', 'class' => 'btn btn-primary'));
 		
 		if (Input::post()) {
-			$val = Validation::forge($account_form);
+			$val = Validation::forge($form);
 				
 			$val->field('id')->add_rule('required');
 			$val->field('fullname')
@@ -134,9 +134,9 @@ class Controller_Admin_Reader extends Controller_Admin
 			}
 		}
 		
-		$account_form->repopulate();
+		$form->repopulate();
 		
-		$this->template->content = $account_form;
+		$this->template->content = $form;
 		$this->template->title = 'Nowy czytelnik';
 	}
 
@@ -175,21 +175,21 @@ class Controller_Admin_Reader extends Controller_Admin
 		if ($reader == null) 
 			return Response::redirect('404');
 		
-		$reader_form = Fieldset::forge();
-		$reader_form->form()->set_attribute('class', 'form-horizontal');
-		$reader_form->add('id', 'Identyfikator', array('class' => 'form-control', 'readonly' => 'readonly'));
-		$reader_form->add('name', 'Imię i nazwisko', array('class' => 'form-control'));
-		$reader_form->add('birth_date', 'Data urodzin', array('class' => 'form-control'));
-		$reader_form->add('phone', 'Telefon', array('class' => 'form-control'));
-		$reader_form->add('comment', 'Komentarz', array('class' => 'form-control'));
-		$reader_form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-primary'));
+		$form = Fieldset::forge();
+		$form->form()->set_attribute('class', 'form-horizontal');
+		$form->add('id', 'Identyfikator', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('name', 'Imię i nazwisko', array('class' => 'form-control'));
+		$form->add('birth_date', 'Data urodzin', array('class' => 'form-control'));
+		$form->add('phone', 'Telefon', array('class' => 'form-control'));
+		$form->add('comment', 'Komentarz', array('class' => 'form-control'));
+		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-primary'));
 		
 		if (Input::post())
 		{
-			$reader->name = $reader_form->field('name')->input();
-			$reader->birth_date = $reader_form->field('birth_date')->input();
-			$reader->phone = $reader_form->field('phone')->input();
-			$reader->comment = $reader_form->field('comment')->input();
+			$reader->name = $form->field('name')->input();
+			$reader->birth_date = $form->field('birth_date')->input();
+			$reader->phone = $form->field('phone')->input();
+			$reader->comment = $form->field('comment')->input();
 			$reader->save();
 					
 			\Message\Message::add_success('Wprowadzono zmiany');
@@ -203,9 +203,9 @@ class Controller_Admin_Reader extends Controller_Admin
 				'comment' => $reader->comment,
 		);
 		
-		$reader_form->populate($input);
+		$form->populate($input);
 		
 		$this->template->title = 'Czytelnik ' . $reader->name;
-		$this->template->content = $reader_form;
+		$this->template->content = $form;
 	}
 }

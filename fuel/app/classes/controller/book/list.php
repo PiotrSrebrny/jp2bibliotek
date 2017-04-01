@@ -10,15 +10,13 @@ use Model\Book;
 
 use Fuel\Core\Pagination;
 
-class Controller_Booklist extends Controller_Template
+class Controller_Book_List extends Controller_Template
 {
 	public function action_index()
 	{
 		$title = Input::get('title');
 		$author = Input::get('author');
 		$type = Input::get('type');
-		
-		var_dump($type);
 
 		$books_count = Model_Book::query_like($title, $author, $type)->count();
 		
@@ -64,7 +62,7 @@ class Controller_Booklist extends Controller_Template
 		
 		$this->template->short_head = true;
 		$this->template->title = 'Wyszukane ksiażki ('. $books_count. ')';
-		$this->template->content = Presenter::forge('booklist')
+		$this->template->content = Presenter::forge('book/list')
 			->set('books', $books)
 			->set('pagination', $pagination)
 			->set('current_view', $current_view);

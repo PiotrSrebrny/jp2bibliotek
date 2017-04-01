@@ -8,3 +8,13 @@ function lookUp(input_element, type)
 		}
   });
 }
+
+function getLastTag()
+{
+	$.get("/dbquery/last_tag/" + $('#form_type').val(), function(data, status) {
+		cache: false
+		if (status == "success") {
+			$('#form_last_tag').val(data)
+		}
+	})
+}
