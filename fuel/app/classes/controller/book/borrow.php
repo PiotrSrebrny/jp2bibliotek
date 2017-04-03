@@ -29,7 +29,7 @@ class ValidationRules
 	}
 }
 
-class Controller_Admin_Borrow extends Controller_Admin
+class Controller_Book_Borrow extends Controller_Template
 {
 	public function before()
 	{
@@ -37,14 +37,6 @@ class Controller_Admin_Borrow extends Controller_Admin
 		
 		if (!Auth::has_access("book.borrow"))
 			return Response::redirect('login');
-	}
-	
-	public function action_index()
-	{
-		$this->template->title = "Książki";
-		$this->template->content = Html::anchor("admin/borrow/borrow", '<h4>Wypożycz książkę</h4>');
-		$this->template->content .= Html::anchor("admin/borrow/list", '<h4>Lista wypożyczonych książek</h4>');
-		$this->template->content .= Html::anchor("admin/borrow/return", '<h4>Zwróć książkę</h4>');
 	}
 
 	/************************************************************************/
@@ -70,7 +62,7 @@ class Controller_Admin_Borrow extends Controller_Admin
 			$borrow->comment = Input::post('comment');
 			$borrow->save();
 			
-			return Response::redirect('admin/borrow/info/' . $id);
+			return Response::redirect('book/borrow/info/' . $id);
 		}
 
 		$input = array (
@@ -131,7 +123,7 @@ class Controller_Admin_Borrow extends Controller_Admin
 			$new_borrow->returned_at = 0;
 				
 			$new_borrow->save();
-			Response::redirect('admin/borrow');
+			Response::redirect('book/borrow');
 		}
 	
 		catch (Exception $e) {
@@ -144,7 +136,7 @@ class Controller_Admin_Borrow extends Controller_Admin
 		$form = Fieldset::forge();
 		$form->form()->set_attribute('class', 'form-horizontal');
 		$form->add('book_tag', 'Identyfikator książki', array('class' => 'form-control'));
-		$form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers\')'));
+		$form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers_with_date\')'));
 		$form->add('comment', 'Komentarz', array('class' => 'form-control'));
 		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Pożycz', 'class' => 'btn btn-primary'));
 
@@ -167,8 +159,9 @@ class Controller_Admin_Borrow extends Controller_Admin
 		
 		$form->repopulate();
 		
-		$this->template->content = $form;
 		$this->template->title = 'Wypożycz książkę';
+		$this->template->content = Presenter::forge('book')
+			->set('content', $form);
 	}
 	
 	/************************************************************************/
@@ -183,7 +176,7 @@ class Controller_Admin_Borrow extends Controller_Admin
 		$borrow->returned_at = time();
 		$borrow->save();
 			
-		Response::redirect("admin/borrow/info/" .$id);
+		Response::redirect("book/borrow/info/" .$id);
 	}
 	
 	

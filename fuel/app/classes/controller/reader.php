@@ -7,15 +7,21 @@ use Fuel\Core\Fieldset;
 use Fuel\Core\Fieldset_Field;
 use Auth\Auth;
 use Message\Message;
+use Fuel\Core\Controller_Template;
 
-class Controller_Admin_Reader extends Controller_Admin
+class Controller_Reader extends Controller_Template
 {
+	public function before()
+	{
+		if (!Auth::has_access("reader.access"))
+			return Response::redirect('login');
+		
+		parent::before();
+	}
 	
 	public function action_index()
 	{
-		$this->template->title = "Czytelnicy";
-		$this->template->content = Html::anchor("admin/reader/create", '<h4>Stwórz</h4>');
-		$this->template->content .= Html::anchor("admin/reader/find", '<h4>Wyszukaj</h4>');
+		Response::redirect('reader/find');
 	}
 	
 	public function action_find()
@@ -32,7 +38,7 @@ class Controller_Admin_Reader extends Controller_Admin
 			if ($reader_count > 0) {
 				$uri = Uri::build_query_string(
 						array('reader' => $reader));
-				Response::redirect('admin/reader/list?' . $uri);
+				Response::redirect('reader/list?' . $uri);
 				
 			} else {
 				Message::add_danger('Nie znaleziono żadnego użytkownika');
@@ -40,15 +46,13 @@ class Controller_Admin_Reader extends Controller_Admin
 		}
 		
 		$this->template->title = "Wyszukaj czytelnika";
-		$this->template->content = $form;
+		$this->template->content = Presenter::forge('reader')
+			->set('content', $form);
 	}
 	
 	
 	public function action_list()
 	{
-		if (!Auth::has_access("reader.read"))
-			return Response::redirect('404');
-		
 		$reader_name = Input::get('reader');
 
 		$readers_count = Model_Reader::count_by_name($reader_name);
@@ -66,9 +70,10 @@ class Controller_Admin_Reader extends Controller_Admin
 						'show_last'      => $show_first_and_last,
 				));
 	
-		$readers = Model_Reader::get_by_name_subset($reader_name, 
-									$pagination->offset, 
-									$pagination->per_page);
+		$readers = Model_Reader::query_by_name($reader_name)
+			->rows_offset($pagination->offset)
+			->rows_limit($pagination->per_page)
+			->get();
 				
 		$current_view = '?' . Uri::build_query_string(Input::get());
 	
@@ -81,9 +86,6 @@ class Controller_Admin_Reader extends Controller_Admin
 	
 	public function action_create()
 	{
-		if (!Auth::has_access("reader.create"))
-			return Response::redirect('404');
-
 		$form = Fieldset::forge();
 		
 		$form->form()->set_attribute('class', 'form-horizontal');
@@ -121,7 +123,8 @@ class Controller_Admin_Reader extends Controller_Admin
 					
 					$new_reader->save();
 					
-					Response::redirect('admin/reader');
+					Message::add_success('Dodano czytelnika');
+					Response::redirect('reader');
 				}
 				
 				catch (Exception $e) {
@@ -136,8 +139,9 @@ class Controller_Admin_Reader extends Controller_Admin
 		
 		$form->repopulate();
 		
-		$this->template->content = $form;
-		$this->template->title = 'Nowy czytelnik';
+		$this->template->title = 'Dodaj czytelnika';
+		$this->template->content = 
+			Presenter::forge('reader')->set('content', $form);
 	}
 
 	public function action_delete($reader)
@@ -150,15 +154,14 @@ class Controller_Admin_Reader extends Controller_Admin
 	
 	public function action_info($id)
 	{
-		if (!Auth::has_access("reader.read"))
-			return Response::redirect('404');
-		
 		$reader = Model_Reader::query()->where('id', $id)->get_one();
 		
-		//$reader->borrows;
+		if ($reader == null)
+			return Response::redirect('404');
+		
 		$buttons = View::forge('buttons')
 			->set('offset', 1)
-			->set('buttons', array(array('../edit/' . $id, 'Edytuj')));
+			->set('buttons', array(array('/reader/edit/' . $id, 'Edytuj')));
 		
 		$this->template->content = View::forge('reader/readerinfo')
 			->set('reader', $reader)
@@ -167,9 +170,6 @@ class Controller_Admin_Reader extends Controller_Admin
 	
 	public function action_edit($id)
 	{
-		if (!Auth::has_access("reader.create"))
-			return Response::redirect('login');
-
 		$reader = Model_Reader::query()->where('id', $id)->get_one();
 		
 		if ($reader == null) 
@@ -192,7 +192,8 @@ class Controller_Admin_Reader extends Controller_Admin
 			$reader->comment = $form->field('comment')->input();
 			$reader->save();
 					
-			\Message\Message::add_success('Wprowadzono zmiany');
+			Message::add_success('Wprowadzono zmiany');
+			Response::redirect('/reader/info/' . $id);
 		}
 		
 		$input = array (

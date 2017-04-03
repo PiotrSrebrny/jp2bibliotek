@@ -7,19 +7,22 @@ use Fuel\Core\Fieldset;
 use Fuel\Core\Fieldset_Field;
 use Auth\Auth;
 use Message\Message;
+use Fuel\Core\Controller_Template;
 
-class Controller_Admin_User extends Controller_Admin
+class Controller_User extends Controller_Template
 {
-	public function action_index()
+	public function before()
 	{
 		if (!Auth::has_access("right.admin"))
-			return Response::redirect('404');
+			return Response::redirect('login');
 		
-		$user = Input::get('user');
+		return parent::before();
+	}
 	
-		$user_count = Model\Auth_User::query()
-			->where('username', 'like', '%'.$user.'%')
-			->count();
+	public function action_index()
+	{
+	
+		$user_count = Model\Auth_User::query()->count();
 	
 		$num_links = 8;
 		$show_first_and_last =  ($user_count / 10) > $num_links;
@@ -35,7 +38,6 @@ class Controller_Admin_User extends Controller_Admin
 				));
 	
 		$users = Model\Auth_User::query()
-			->where('username', 'like', '%'.$user.'%')
 			->order_by('username')
 			->rows_offset($pagination->offset)
 			->rows_limit($pagination->per_page)
@@ -46,7 +48,6 @@ class Controller_Admin_User extends Controller_Admin
 		$data['pagination'] = $pagination;
 		$data['users'] = $users;
 	
-		$this->template->menu = Presenter::forge('menu');
 		$this->template->title = 'Użytkownicy ('. $user_count. ')';
 		$this->template->content = View::forge('userlist')
 			->set('users', $users)
@@ -57,17 +58,11 @@ class Controller_Admin_User extends Controller_Admin
 
 	public function action_delete($username)
 	{
-		if (Auth::has_access("right.admin") == false)
-			return Response::redirect('404');
-
 		Auth::delete_user($username);
 	}
 	
 	public function action_edit($username)
 	{
-		if (Auth::has_access("right.admin") == false)
-			return Response::redirect('404');
-
 		$groups_def = \Config::get('simpleauth.groups', false);
 		$groups = Auth::groups();
 	
@@ -82,7 +77,7 @@ class Controller_Admin_User extends Controller_Admin
 		$form = Fieldset::forge();
 		$form->form()->set_attribute('class', 'form-horizontal');
 	
-		$form->add('fullname', 'Imię/nazwisko', array('class' => 'form-control', 'readonly' => 'readonly'));
+		$form->add('fullname', 'Imię i nazwisko', array('class' => 'form-control', 'readonly' => 'readonly'));
 		$form->add('email', 'Email', array('class' => 'form-control', 'readonly' => 'readonly'));
 		$form->add('group', 'Grupa', array('class' => 'form-control', 'options' => $group_names, 'type' => 'select'));
 		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Zapisz', 'class' => 'btn btn-primary'));

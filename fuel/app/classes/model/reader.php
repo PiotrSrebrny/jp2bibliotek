@@ -33,14 +33,11 @@ class Model_Reader extends Orm\Model
 			->get_one();
 	}
 	
-	public static function get_by_name_subset($name, $offset, $limit) 
+	public static function query_by_name($name) 
 	{
 		return parent::query()
 			->where('name', 'like', '%'.$name.'%')
-			->order_by('name')
-			->rows_offset($offset)
-			->rows_limit($limit)
-			->get();
+			->order_by('name');
 	}
 }
 

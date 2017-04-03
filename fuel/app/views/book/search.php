@@ -1,9 +1,10 @@
-<button type="button" class="btn btn-default" data-toggle="collapse" data-target="#search_form">
-	<font size="4">Szukaj</font>
-</button>
+<div class="panel panel-default">
+	<div class="panel-heading">Według tytułu, autora, lub rodzaju</div>
+	<div class="panel-body"><?php echo $this->form_by_name; ?></div>
+</div>
 
-<div id="search_form" class="collapse in">
-	<div class="container">
-		<?php echo $this->form; ?>
-	</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Według identyfikatora</div>
+	<div class="panel-body"><?php echo $this->form_by_tag; ?></div>
 </div>

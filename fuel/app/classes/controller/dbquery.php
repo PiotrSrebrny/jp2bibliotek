@@ -44,16 +44,31 @@ class Controller_Dbquery extends Controller
 		return Response::forge($last_tag);
 	}
 	
+	public function action_readers_with_date($name)
+	{
+		if (!Auth::has_access("book.borrow"))
+			return Response::redirect('404');
+		
+		$readers = Model_Reader::query_by_name($name)->limit(4)->get();
+		
+		$response = '<script>var auto=[';
+		foreach ($readers as $reader)
+			$response .= '{"label" : "' . $reader->name . ' (' . $reader->birth_date . ')"},';
+		$response .= '];</script>';
+		
+		return Response::forge($response);
+	}
+	
 	public function action_readers($name)
 	{
 		if (!Auth::has_access("book.borrow"))
 			return Response::redirect('404');
 		
-		$readers = Model_Reader::get_by_name_subset($name, 0, 4);
+		$readers = Model_Reader::query_by_name($name)->limit(4)->get();
 		
 		$response = '<script>var auto=[';
 		foreach ($readers as $reader)
-			$response .= '{"label" : "' . $reader->name . ' (' . $reader->birth_date . ')"},';
+			$response .= '{"label" : "' . $reader->name . '"},';
 		$response .= '];</script>';
 		
 		return Response::forge($response);

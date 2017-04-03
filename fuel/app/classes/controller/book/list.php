@@ -62,7 +62,7 @@ class Controller_Book_List extends Controller_Template
 		
 		$this->template->short_head = true;
 		$this->template->title = 'Wyszukane ksiażki ('. $books_count. ')';
-		$this->template->content = Presenter::forge('book/list')
+		$this->template->content = View::forge('book/list')
 			->set('books', $books)
 			->set('pagination', $pagination)
 			->set('current_view', $current_view);

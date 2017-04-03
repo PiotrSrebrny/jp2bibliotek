@@ -114,7 +114,7 @@ return array(
 			'user' => array('website' => array('read')),
 			'librarian' => 
 				array(
-					'reader' => array('read', 'create','update'),
+					'reader' => array('access'),
 					'book' => array('add', 'update', 'delete', 'borrow')),
 			'banned' => false,
 			'admin' => true,

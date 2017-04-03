@@ -36,7 +36,6 @@
 
 <br>
 
-<!--  List borrowed books only if any -->
 <?php if ($reader->borrows != null) { ?>
 
 	<h3>Książki</h3>
@@ -63,7 +62,7 @@
 				} ?>
 			</th>
 			<th class="col-sm-4 text-left">
-				<a href="../../borrow/info/<?php echo $borrow->id; ?>"> 
+				<a href="/book/borrow/info/<?php echo $borrow->id; ?>"> 
 				<?php echo $borrow->book->title;?> 
 				</a>
 			</th>
@@ -72,14 +71,3 @@
 	</tbody>
 	</table>
 <?php }?>
-
-
-<?php if (isset($return_url)) { ?>
-	<div>
-		<div class="col-sm-offset-1 col-sm-4">
-			<?php echo Html::anchor($return_url, 'Wstecz', array('class' => 'btn btn-default')); ?>		
-		</div>
-	</div>
-<?php } ?>
-</div>
-</div>

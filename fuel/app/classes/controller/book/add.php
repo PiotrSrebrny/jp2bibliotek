@@ -37,7 +37,7 @@ class Controller_Book_Add extends Controller_Template
 		$val = Validation::forge();
 		
 		if (!Input::post()) {
-			$this->template->content = Presenter::forge('book/edit', 'view_empty');
+			$content = Presenter::forge('book/edit', 'view_empty');
 			
 		} else {
 			
@@ -123,10 +123,8 @@ class Controller_Book_Add extends Controller_Template
 // 							->set('book_id', $new_book->id)
 // 							->set('infoonly', true);
 					
-					$this->template->content = Presenter::forge('book/edit', 'view_empty');
-					$this->template->menu = Presenter::forge('menu')->set('addbook_pg', true);
+					$content = Presenter::forge('book/edit', 'view_empty');
 					
-					return;
 				}
 				
 				
@@ -169,7 +167,9 @@ class Controller_Book_Add extends Controller_Template
 		
 		if (Input::post()) {
 			$this->template->title = 'Dodaj nową książkę';
-			$this->template->content = View::forge('book/edit', $data);
+			$content = View::forge('book/edit', $data);
 		}
+		
+		$this->template->content = Presenter::forge('book')->set('content', $content);
 	}
 }
