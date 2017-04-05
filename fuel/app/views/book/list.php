@@ -20,7 +20,7 @@
 	<?php foreach ($books as $book): ?>
 		<tr>
 			<?php if (Auth::has_access('book.update')) echo '<td>'.$book->tag.'</td>' ?>
-			<td><?php echo $book->title; ?></td>
+			<td><?php echo Html::anchor('book/info/view/'.$book['id'] . $current_view, $book->title); ?></td>
 			<td><?php 
 				$first = true;
 				foreach ($book->authors as $author) {
@@ -31,23 +31,6 @@
 				}
 				?>
 			</td>
-			<td>
-				<span>
-					<?php 
-					
-						echo Html::anchor('book/info/view/'.$book['id'] . $current_view, '', array('class' => 'glyphicon glyphicon-eye-open'));
-						
-						if (Auth::has_access('book.update'))
-							echo Html::anchor('book/info/edit/'.$book['id'] . $current_view, '', array('class' => 'btn glyphicon-wrench'));
-						
-						if (Auth::has_access('book.delete'))
-							echo Html::anchor('book/info/remove/'.$book['id'] . $current_view, '', 
-									array('class' => 'glyphicon glyphicon-trash', 
-											  'onclick' => "return confirm ('Czy napewno usunać?')")); 
-						
-						?>
-				</span> 
-			</td> 
 		</tr>
 	<?php endforeach; ?>
 	</tbody>

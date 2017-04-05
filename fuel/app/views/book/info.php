@@ -55,13 +55,24 @@ $type_choice = array(
 
 </table>
 
-<?php if (isset($return_url)) { ?>
-	<div>
-		<div class="col-sm-offset-1 col-sm-4">
-			<?php echo Html::anchor($return_url, 'Wstecz', array('class' => 'btn btn-default')); ?>		
-		</div>
+<div>
+	<div class="col-sm-offset-1 col-sm-4">
+	<?php 
+	if (isset($return_url))
+		echo Html::anchor($return_url, 'Wstecz', array('class' => 'btn btn-default'));		
+	
+	if (Auth::has_access('book.update'))
+		echo Html::anchor('book/update/edit/'.$book->id .'?'. Uri::build_query_string(Input::get()), 'Edytuj', array('class' => 'btn btn-default'));
+	
+	if (Auth::has_access('book.update'))
+		echo Html::anchor('book/update/remove/'.$book->id .'?'. Uri::build_query_string(Input::get()), 'Usuń', 
+				array('class' => 'btn btn-default', 
+					  'onclick' => "return confirm ('Czy napewno usunać?')"));
+	?>
 	</div>
-<?php } ?>
+</div>
+
+
 <div>
 <br><br>
 <?php
@@ -87,7 +98,7 @@ $type_choice = array(
 						 { ?>
 				
 					<form action="<?php echo $my_url?>" method="post">
-						<input value="<?php echo $comment->id ?>" name="delete" hidden>
+						<input value="<?php echo $comment->id ?>" name="delete" hidden="hidden">
 						<input type="submit"  value="Usuń" class="btn btn-default">
 					</form>
 					<br>

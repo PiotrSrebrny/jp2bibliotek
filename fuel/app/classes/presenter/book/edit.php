@@ -41,13 +41,10 @@ class Presenter_Book_Edit extends Presenter
 		
 		$author_count = count($authors);
 				
-		/*
-		 * Fill in fields
- 	   */
-	  $this->tag_in = $book->tag;
-	  $this->title_in = $book->title;
-	  $this->type_in = $book->type;
-	  $this->author_count = $author_count;
-	  $this->authors_in = $authors_in;
+		$this->tag_in = $book->tag;
+		$this->title_in = $book->title;
+		$this->type_in = $book->type;
+		$this->author_count = $author_count;
+		$this->authors_in = $authors_in;
 	}
 }

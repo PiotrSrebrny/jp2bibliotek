@@ -191,7 +191,10 @@ class Controller_Book_Borrow extends Controller_Template
 		$button_list = array();
 		
 		if ($borrow->returned_at == 0)
-			array_push($button_list, array('../return/' . $id, 'Zwróć'));
+			array_push($button_list,
+					array('../return/' . $id, 'Zwróć',
+					'onclick' => "return confirm ('Czy napewno zwrócić?')"
+			));
 		
 		array_push($button_list, array('../edit/' . $id, 'Edytuj'));
 		
@@ -212,7 +215,7 @@ class Controller_Book_Borrow extends Controller_Template
 		$borrows_count = \Model_Borrow::count_borrowed();
 
 		$num_links = 8;
-		$show_first_and_last =  ($borrows_count / 10) > $num_links;
+		$show_first_and_last = ($borrows_count / 10) > $num_links;
 
 		$pagination = Pagination::forge('mypagination',
 				array(
