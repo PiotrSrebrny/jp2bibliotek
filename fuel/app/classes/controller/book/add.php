@@ -12,7 +12,8 @@ use Model\Book;
 use Fuel\Core\Model;
 use Message\Message;
 
-class ValidationTagRule {
+class ValidationTagRule
+{
 	public static function _validation_unique_tag($val)
 	{
 		Validation::active()->set_message('unique_tag', 'Wybrany identifikator jest już wykorzystany');

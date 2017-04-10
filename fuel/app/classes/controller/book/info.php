@@ -12,53 +12,54 @@ class Controller_Book_Info extends Controller_Template
 	{		
 		$book = Model_Book::find($book_id);
 		
-		if ($book) {
-			if (Auth::check())
-				list(, $user_id) = Auth::get_user_id();
-			else
-				$user_id = -1;
+		if ($book === null) {
+			$this->template->title = 'Nie znaleziono książki';
+			return;
+		}
+		
+		if (Auth::check())
+			list(, $user_id) = Auth::get_user_id();
+		else
+			$user_id = -1;
+		
+		if (Input::post())
+		{
+			if (!Auth::check())
+				Response::redirect('404');
 			
-			if (Input::post())
+			if (Input::post('delete'))
 			{
-				if (!Auth::check())
-					Response::redirect('404');
-				
-				if (Input::post('delete'))
+				$comment = Model_Comment::find(Input::post('delete'));
+				if ($comment)
 				{
-					$comment = Model_Comment::find(Input::post('delete'));
-					if ($comment)
-					{
-						if (($comment->user_id == $user_id) || 
-						    (Auth::has_access("right.admin")))
-							$comment->delete();
-					}
-				}
-				
-				if (Input::post('comment')) 
-				{	
-					$comment = new Model_Comment();
-					$comment->text = Input::post('comment');
-					$comment->user_id = $user_id;
-					$comment->name =  Auth::get('fullname');
-					$comment->book_id = $book_id;
-					
-					$comment->save();
-					
-					$book->comments[] = $comment;
-					$book->save();
+					if (($comment->user_id == $user_id) || 
+					    (Auth::has_access("right.admin")))
+						$comment->delete();
 				}
 			}
 			
-			$this->template->title = strlen($book->title) == 1 ? "Brak tytułu" : $book->title;
-			$this->template->content = 
-				Presenter::forge('book/info')
-					->set('book', $book)
-					->set('user_id', $user_id)
-					->set('my_url', Uri::current() . '?' . Uri::build_query_string(Input::get()))
-					->set('return_url', 'book/list?' . Uri::build_query_string(Input::get()));
-			
-		} else {
-			$this->template->title = 'Nie znaleziono książki';
+			if (Input::post('comment')) 
+			{	
+				$comment = new Model_Comment();
+				$comment->text = Input::post('comment');
+				$comment->user_id = $user_id;
+				$comment->name =  Auth::get('fullname');
+				$comment->book_id = $book_id;
+				
+				$comment->save();
+				
+				$book->comments[] = $comment;
+				$book->save();
+			}
 		}
+		
+		$this->template->title = strlen($book->title) == 1 ? "Brak tytułu" : $book->title;
+		$this->template->content = 
+			Presenter::forge('book/info')
+				->set('book', $book)
+				->set('user_id', $user_id)
+				->set('my_url', Uri::current() . '?' . Uri::build_query_string(Input::get()))
+				->set('return_url', 'book/list?' . Uri::build_query_string(Input::get()));
+		
 	}
 }

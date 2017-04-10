@@ -83,20 +83,7 @@ class Controller_Book_Borrow extends Controller_Template
 	
 	private function borrow_execute()
 	{
-		$name_date = Input::post('reader');
-		
-		if (strpos($name_date, '(') == false) {
-			Message::add_danger('Nie prawidłowy format czytelnika, oczekiwany: Imię Nazwisko (data urodzenia)');
-			return;
-		}
-		
-		list($name, $date) = explode('(', $name_date);
-		
-			
-		$date = trim(substr($date, 0, -1));
-		$name = trim($name);
-		
-		$reader = Model_Reader::get_by_name_and_date($name, $date);
+		$reader = Model_Reader::query_by_name(Input::post('reader'));
 		$book = Model_Book::get_by_tag(Input::post('book_tag'));
 		
 		if (($book == null) || ($reader == null)) {
@@ -105,8 +92,12 @@ class Controller_Book_Borrow extends Controller_Template
 					
 			if ($reader == null)
 				Message::add_danger('Nie znalezeiono czytelnika');
-	
 			return;
+		}
+		
+		if ($reader->count() > 1) {
+			Message::add_danger('Istniej więcej niż jeden czytelnik o podanym imieniu i nazwisku');
+			return;				
 		}
 		
 		if ($book->is_borrowed()) {
@@ -116,7 +107,7 @@ class Controller_Book_Borrow extends Controller_Template
 		
 		try {
 			$new_borrow = new Model_Borrow();
-			$new_borrow->reader_id = $reader->id;
+			$new_borrow->reader_id = $reader->get_one()->id;
 			$new_borrow->book_id = $book->id;
 			$new_borrow->borrowed_at = time();
 			$new_borrow->comment = Input::post('comment');
@@ -136,7 +127,7 @@ class Controller_Book_Borrow extends Controller_Template
 		$form = Fieldset::forge();
 		$form->form()->set_attribute('class', 'form-horizontal');
 		$form->add('book_tag', 'Identyfikator książki', array('class' => 'form-control'));
-		$form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers_with_date\')'));
+		$form->add('reader', 'Czytelnik', array('class' => 'form-control', 'onkeyup' => 'lookUp(this, \'readers\')'));
 		$form->add('comment', 'Komentarz', array('class' => 'form-control'));
 		$form->add('submit', ' ', array('type' => 'submit', 'value' => 'Pożycz', 'class' => 'btn btn-primary'));
 
