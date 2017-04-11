@@ -163,6 +163,7 @@ class Controller_Reader extends Controller_Template
 			->set('offset', 1)
 			->set('buttons', array(array('/reader/edit/' . $id, 'Edytuj')));
 		
+		
 		$this->template->content = View::forge('reader/readerinfo')
 			->set('reader', $reader)
 			->set('buttons', $buttons);

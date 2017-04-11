@@ -29,6 +29,23 @@ class Model_Borrow extends Orm\Model
 				->where('returned_at','=',0)
 				->count() != 0);
 	}
+	
+	public static function reader_borrowed($reader)
+	{
+		return parent::query()
+		->where('reader_id', '=', $reader->id)
+		->where('returned_at','=',0)
+		->order_by('borrowed_at','desc');
+	}
+	
+	public static function reader_returned($reader)
+	{
+		return parent::query()
+		->where('reader_id', '=', $reader->id)
+		->where('returned_at','!=',0)
+		->order_by('borrowed_at','desc');
+	}
+	
 }
 
 ?>

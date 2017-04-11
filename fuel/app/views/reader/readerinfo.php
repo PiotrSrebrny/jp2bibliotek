@@ -48,22 +48,40 @@
 	</tr>
 	</thead>
 	<tbody>
-	<?php foreach ($reader->borrows as $borrow) { ?>
+	<?php
+	$returns = \Model_Borrow::reader_returned($reader)->get();
+	$borrows = \Model_Borrow::reader_borrowed($reader)->get();
+	?>
+	<?php foreach ($borrows as $borrow) { ?>
 		<tr>
 			<th class="col-sm-1 text-center">
 				<?php
 				echo Date::forge($borrow->borrowed_at)->format("%d.%m.%y"); 
 				?>
 			</th>
-			<th class="col-sm-1 text-center">
-				<?php 
-				if ($borrow->returned_at != 0) {
-					echo Date::forge($borrow->returned_at)->format("%d.%m.%y");
-				} ?>
-			</th>
+			<th class="col-sm-1 text-center"></th>
 			<th class="col-sm-4 text-left">
 				<a href="/book/borrow/info/<?php echo $borrow->id; ?>"> 
 				<?php echo $borrow->book->title;?> 
+				</a>
+			</th>
+		</tr>
+	<?php } ?>
+	<?php foreach ($returns as $return) { ?>
+		<tr>
+			<th class="col-sm-1 text-center">
+				<?php
+				echo Date::forge($return->borrowed_at)->format("%d.%m.%y"); 
+				?>
+			</th>
+			<th class="col-sm-1 text-center">
+				<?php 
+				echo Date::forge($return->returned_at)->format("%d.%m.%y");
+				?>
+			</th>
+			<th class="col-sm-4 text-left">
+				<a href="/book/borrow/info/<?php echo $return->id; ?>"> 
+				<?php echo $return->book->title;?> 
 				</a>
 			</th>
 		</tr>
