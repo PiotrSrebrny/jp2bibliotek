@@ -49,8 +49,8 @@
 	</thead>
 	<tbody>
 	<?php
-	$returns = \Model_Borrow::reader_returned($reader)->get();
-	$borrows = \Model_Borrow::reader_borrowed($reader)->get();
+	$returns = $reader->returned()->get();
+	$borrows = $reader->borrowed()->get();
 	?>
 	<?php foreach ($borrows as $borrow) { ?>
 		<tr>

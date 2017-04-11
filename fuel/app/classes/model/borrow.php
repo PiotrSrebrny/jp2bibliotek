@@ -11,16 +11,11 @@ class Model_Borrow extends Orm\Model
 	
 	protected static $_belongs_to = array('book', 'reader');
 	
-	public static function get_borrowed()
+	public static function all()
 	{
 		return parent::query()->where('returned_at','=', 0)->get();
 	}
 	
-	public static function count_borrowed()
-	{
-		return parent::query()->where('returned_at','=', 0)->count();
-	}
-
 	public static function is_borrowed($book_id)
 	{
 		return 

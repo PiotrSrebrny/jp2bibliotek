@@ -218,13 +218,13 @@ class Controller_Book_Borrow extends Controller_Template
 						'show_last'      => $show_first_and_last,
 				));
 
-		$borrows = Model_Borrow::get_borrowed();
+		$borrows = \Model_Borrow::all();
 
 		$current_view = '?' . Uri::build_query_string(Input::get());
 
-		$this->template->title = 'Pożyczone ('. $borrows_count. ')';
+		$this->template->title = 'Pożyczone ('. $borrows->count(). ')';
 		$this->template->content = View::forge('borrow/borrowlist')
-			->set('borrows', $borrows)
+			->set('borrows', $borrows->get())
 			->set('pagination', $pagination)
 			->set('current_view', $current_view);
 	}

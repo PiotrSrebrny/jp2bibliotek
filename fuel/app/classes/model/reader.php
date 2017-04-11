@@ -24,6 +24,16 @@ class Model_Reader extends Orm\Model
 			->get();
 	}
 	
+	public function borrowed()
+	{
+		return \Model_Borrow::reader_borrowed($this);
+	}
+	
+	public function returned()
+	{
+		return \Model_Borrow::reader_returned($this);
+	}
+	
 	public static function get_by_name_and_date($name, $date)
 	{
 		return parent::query()
