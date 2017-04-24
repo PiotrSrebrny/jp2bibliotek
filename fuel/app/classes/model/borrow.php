@@ -25,19 +25,26 @@ class Model_Borrow extends Orm\Model
 				->count() != 0);
 	}
 	
-	public static function reader_borrowed($reader)
+	public static function reader_borrowed($reader_id)
 	{
 		return parent::query()
-		->where('reader_id', '=', $reader->id)
+		->where('reader_id', '=', $reader_id)
 		->where('returned_at','=',0)
 		->order_by('borrowed_at','desc');
 	}
 	
-	public static function reader_returned($reader)
+	public static function reader_returned($reader_id)
 	{
 		return parent::query()
-		->where('reader_id', '=', $reader->id)
+		->where('reader_id', '=', $reader_id)
 		->where('returned_at','!=',0)
+		->order_by('borrowed_at','desc');
+	}
+	
+	public static function book_all($book_id)
+	{
+		return parent::query()
+		->where('book_id', '=', $book_id)
 		->order_by('borrowed_at','desc');
 	}
 	

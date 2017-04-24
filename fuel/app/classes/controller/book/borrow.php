@@ -114,7 +114,7 @@ class Controller_Book_Borrow extends Controller_Template
 			$new_borrow->returned_at = 0;
 				
 			$new_borrow->save();
-			Response::redirect('book/borrow');
+			Response::redirect('book/borrow/borrow');
 		}
 	
 		catch (Exception $e) {

@@ -26,12 +26,12 @@ class Model_Reader extends Orm\Model
 	
 	public function borrowed()
 	{
-		return \Model_Borrow::reader_borrowed($this);
+		return \Model_Borrow::reader_borrowed($this->id);
 	}
 	
 	public function returned()
 	{
-		return \Model_Borrow::reader_returned($this);
+		return \Model_Borrow::reader_returned($this->id);
 	}
 	
 	public static function get_by_name_and_date($name, $date)

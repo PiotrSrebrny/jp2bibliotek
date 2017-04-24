@@ -104,9 +104,6 @@ class Controller_Reader extends Controller_Template
 			$val->field('fullname')
 				->add_rule('required')
 				->add_rule('trim');
-			$val->field('birth_date')
-				->add_rule('required');
-				//->add_rule('valid_date', '%d.%m.%Y');
 				
 			if (!$val->run()) {
 				Message::add_danger($val->show_errors());
@@ -161,7 +158,9 @@ class Controller_Reader extends Controller_Template
 		
 		$buttons = View::forge('buttons')
 			->set('offset', 1)
-			->set('buttons', array(array('/reader/edit/' . $id, 'Edytuj')));
+			->set('buttons', array(
+					array('/reader/edit/' . $id, 'Edytuj'),
+					array('/reader/list?' . Uri::build_query_string(Input::get()), 'Wstecz')));
 		
 		
 		$this->template->content = View::forge('reader/readerinfo')

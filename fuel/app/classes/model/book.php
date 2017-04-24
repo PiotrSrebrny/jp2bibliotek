@@ -12,12 +12,6 @@ class Model_Book extends Orm\Model
 	protected static $_has_many = array('comments');
 	
 	/************************************************************************/
-	public function is_borrowed()
-	{
-		return Model_Borrow::is_borrowed($this->id);
-	}
-	
-	/************************************************************************/
 	public static function has_tag($tag)
 	{
 		$exist = parent::find('first', array(
@@ -84,6 +78,18 @@ class Model_Book extends Orm\Model
 					->where('authors.name', 'like', '%'.$author.'%');
 		
 		return $query;
+	}
+
+	/************************************************************************/
+	public function is_borrowed()
+	{
+		return Model_Borrow::is_borrowed($this->id);
+	}
+	
+	/************************************************************************/
+	public function borrows()
+	{
+		return Model_Borrow::book_all($this->id);
 	}
 }
 
