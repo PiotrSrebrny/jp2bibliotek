@@ -13,7 +13,7 @@ class Model_Borrow extends Orm\Model
 	
 	public static function all()
 	{
-		return parent::query()->where('returned_at','=', 0)->get();
+		return parent::query()->where('returned_at','=', 0);
 	}
 	
 	public static function is_borrowed($book_id)

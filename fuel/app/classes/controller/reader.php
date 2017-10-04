@@ -33,7 +33,7 @@ class Controller_Reader extends Controller_Template
 		
 		if (Input::post()) {
 			$reader = Input::post('reader');
-			$reader_count = Model_Reader::count_by_name($reader);
+			$reader_count = Model_Reader::query_like_name($reader)->count();
 				
 			if ($reader_count > 0) {
 				$uri = Uri::build_query_string(
@@ -55,7 +55,7 @@ class Controller_Reader extends Controller_Template
 	{
 		$reader_name = Input::get('reader');
 
-		$readers_count = Model_Reader::count_by_name($reader_name);
+		$readers_count = Model_Reader::query_like_name($reader_name)->count();
 	
 		$num_links = 8;
 		$show_first_and_last =  ($readers_count / 10) > $num_links;
@@ -70,7 +70,7 @@ class Controller_Reader extends Controller_Template
 						'show_last'      => $show_first_and_last,
 				));
 	
-		$readers = Model_Reader::query_by_name($reader_name)
+		$readers = Model_Reader::query_like_name($reader_name)
 			->rows_offset($pagination->offset)
 			->rows_limit($pagination->per_page)
 			->get();

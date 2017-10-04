@@ -83,7 +83,7 @@ class Controller_Book_Borrow extends Controller_Template
 	
 	private function borrow_execute()
 	{
-		$reader = Model_Reader::query_by_name(Input::post('reader'));
+		$reader = Model_Reader::query_has_name(Input::post('reader'));
 		$book = Model_Book::get_by_tag(Input::post('book_tag'));
 		
 		if (($book == null) || ($reader == null)) {
@@ -187,7 +187,8 @@ class Controller_Book_Borrow extends Controller_Template
 					'onclick' => "return confirm ('Czy napewno zwrócić?')"
 			));
 		
-		array_push($button_list, array('../edit/' . $id, 'Edytuj'));
+		array_push($button_list, array('/book/borrow/edit/' . $id, 'Edytuj'));
+		array_push($button_list, array('/book/borrow/list?' . Uri::build_query_string(Input::get()), 'Wstecz'));
 		
 		$buttons = View::forge('buttons')
 			->set('offset', 1)
@@ -203,7 +204,7 @@ class Controller_Book_Borrow extends Controller_Template
 	/************************************************************************/
 	public function action_list()
 	{
-		$borrows_count = \Model_Borrow::count_borrowed();
+		$borrows_count = \Model_Borrow::all()->count();
 
 		$num_links = 8;
 		$show_first_and_last = ($borrows_count / 10) > $num_links;

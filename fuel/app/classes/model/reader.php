@@ -9,19 +9,11 @@ class Model_Reader extends Orm\Model
 
 	protected static $_has_many = array('borrows');
 	
-	public static function count_by_name($name)
+	public static function query_like_name($name)
 	{
 		return parent::query()
 			->where('name', 'like', '%'.$name.'%')
-			->count();
-	}
-	
-	public static function get_by_name_all($name)
-	{
-		return parent::query()
-			->where('name', 'like', '%'.$name.'%')
-			->order_by('name')
-			->get();
+			->order_by('name');
 	}
 	
 	public function borrowed()
@@ -43,10 +35,10 @@ class Model_Reader extends Orm\Model
 			->get_one();
 	}
 	
-	public static function query_by_name($name) 
+	public static function query_has_name($name) 
 	{
 		return parent::query()
-			->where('name', 'like', '%'.$name.'%')
+			->where('name', '=', $name)
 			->order_by('name');
 	}
 }
