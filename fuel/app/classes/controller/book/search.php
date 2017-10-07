@@ -66,7 +66,7 @@ class Controller_Book_Search extends Controller_Template
 			}
 		}
 		
-		$view = \View::forge('book\search')
+		$view = \View::forge('book/search')
 			->set('form_by_name', $form1)
 			->set('form_by_tag', $form2);
 		
