@@ -9,7 +9,7 @@
 			<td>
 			<?php if ($borrow->reader != null) { ?> 
 				<a href="/reader/info/<?php echo $borrow->reader_id?>">
-				<?php echo $borrow->reader->name . ' (' . $borrow->reader->birth_date.')'; ?>
+				<?php echo $borrow->reader->name; ?>
 				</a>
 			<?php } else { echo "brak"; } ?>
 			</td>

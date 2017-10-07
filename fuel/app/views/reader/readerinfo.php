@@ -3,7 +3,7 @@
 <div class="col-sm-1"></div>
 
 <div class="col-sm-8">
-
+<div class="container">
 <h3>Czytelnik</h3>
 <table class="table table-hover">
 <tr>
@@ -33,10 +33,10 @@
 </table>
 
 <?php echo $buttons; ?>
-
-<br>
+</div>
 
 <?php if ($reader->borrows != null) { ?>
+	<div class="container">
 
 	<h3>Książki</h3>
 	<table class="table table-hover">
@@ -88,4 +88,5 @@
 	<?php } ?>
 	</tbody>
 	</table>
+	</div>
 <?php }?>

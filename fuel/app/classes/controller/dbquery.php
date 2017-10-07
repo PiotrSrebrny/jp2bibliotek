@@ -49,7 +49,7 @@ class Controller_Dbquery extends Controller
 		if (!Auth::has_access("book.borrow"))
 			return Response::redirect('404');
 		
-		$readers = Model_Reader::query_by_name($name)->limit(4)->get();
+		$readers = Model_Reader::query_has_name($name)->limit(4)->get();
 		
 		$response = '<script>var auto=[';
 		foreach ($readers as $reader)
@@ -64,7 +64,7 @@ class Controller_Dbquery extends Controller
 		if (!Auth::has_access("book.borrow"))
 			return Response::redirect('404');
 		
-		$readers = Model_Reader::query_by_name($name)->limit(4)->get();
+		$readers = Model_Reader::query_has_name($name)->limit(4)->get();
 		
 		$response = '<script>var auto=[';
 		foreach ($readers as $reader)

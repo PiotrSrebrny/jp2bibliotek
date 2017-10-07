@@ -5,7 +5,14 @@
 	?>
 		<tr>
 			<td><?php echo $reader->id; ?></td>
-			<td><a href="info/<?php echo $reader->id?>"><?php echo $reader->name . ' (' . $reader->birth_date. ')'; ?></a></td>
+			<td>
+				<a href="info/<?php echo $reader->id . $current_view?>">
+				<?php 
+					echo $reader->name;
+					if (isset($reader->birth_date) && ($reader->birth_date != "")) {
+						echo ' (' . $reader->birth_date. ')';
+					}
+				?></a></td>
 			<td><?php echo $reader->phone; ?></td>
 		</tr>
 	<?php } ?>
