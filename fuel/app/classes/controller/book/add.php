@@ -26,7 +26,7 @@ class Controller_Book_Add extends Controller_Template
 {
 	public function action_index()
 	{
-		if (Auth::has_access('book.create') == false)
+		if (Auth::has_access('book.add') == false)
 			Response::redirect('home');
 		
 		$this->template->title = 'Dodaj nową książkę';
