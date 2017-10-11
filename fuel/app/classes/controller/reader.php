@@ -70,9 +70,12 @@ class Controller_Reader extends Controller_Template
 						'show_last'      => $show_first_and_last,
 				));
 	
+		$order = is_null(Input::get('by')) ? 'id' : Input::get('by');
+
 		$readers = Model_Reader::query_like_name($reader_name)
 			->rows_offset($pagination->offset)
 			->rows_limit($pagination->per_page)
+			->order_by($order)
 			->get();
 				
 		$current_view = '?' . Uri::build_query_string(Input::get());

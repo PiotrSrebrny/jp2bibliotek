@@ -12,8 +12,7 @@ class Model_Reader extends Orm\Model
 	public static function query_like_name($name)
 	{
 		return parent::query()
-			->where('name', 'like', '%'.$name.'%')
-			->order_by('name');
+			->where('name', 'like', '%'.$name.'%');
 	}
 	
 	public function borrowed()

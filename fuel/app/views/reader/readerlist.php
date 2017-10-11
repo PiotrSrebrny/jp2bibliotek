@@ -1,4 +1,16 @@
 <table class="table table-striped">
+<thead>
+<tr>
+	<th>
+		<?php echo 'Identyfikator ' . Html::anchor(Uri::update_query_string(array('by' => 'id')), '', array('class' => 'glyphicon glyphicon-sort')); ?>
+	</th>
+
+	<th>
+		<?php echo 'Imię i nazwisko ' . Html::anchor(Uri::update_query_string(array('by' => 'name')), '', array('class' => 'glyphicon glyphicon-sort')); ?>
+	</th>
+	</tr>
+</thead>
+
 <tbody>
 	
 	<?php foreach ($readers as $reader) { 
