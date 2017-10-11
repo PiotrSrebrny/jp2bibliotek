@@ -2,11 +2,14 @@
 <thead>
 <tr>
 	<th>
-		<?php echo 'Identyfikator ' . Html::anchor(Uri::update_query_string(array('by' => 'id')), '', array('class' => 'glyphicon glyphicon-sort')); ?>
+		<?php echo 'Identyfikator' . Html::anchor(Uri::update_query_string(array('by' => 'id')), '', array('class' => 'glyphicon glyphicon-sort')); ?>
 	</th>
 
 	<th>
-		<?php echo 'Imię i nazwisko ' . Html::anchor(Uri::update_query_string(array('by' => 'name')), '', array('class' => 'glyphicon glyphicon-sort')); ?>
+		<?php echo 'Imię i nazwisko' . Html::anchor(Uri::update_query_string(array('by' => 'name')), '', array('class' => 'glyphicon glyphicon-sort')); ?>
+	</th>
+	<th>
+		Telefon
 	</th>
 	</tr>
 </thead>
