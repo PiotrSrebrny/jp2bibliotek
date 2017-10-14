@@ -1,3 +1,6 @@
+<?php
+use Fuel\Core\Uri;
+?>
 
 <div class="row"> 
 <div class="col-sm-1"></div>
@@ -61,7 +64,7 @@
 			</th>
 			<th class="col-sm-1 text-center"></th>
 			<th class="col-sm-4 text-left">
-				<a href="/book/borrow/info/<?php echo $borrow->id; ?>"> 
+				<a href="<?php echo Uri::current() . '/id/' .  $borrow->id; ?>"> 
 				<?php echo $borrow->book->title;?> 
 				</a>
 			</th>
@@ -80,7 +83,7 @@
 				?>
 			</th>
 			<th class="col-sm-4 text-left">
-				<a href="/book/borrow/info/<?php echo $return->id; ?>"> 
+				<a href="<?php echo Uri::current() . '/id/' . $return->id; ?>"> 
 				<?php echo $return->book->title;?> 
 				</a>
 			</th>

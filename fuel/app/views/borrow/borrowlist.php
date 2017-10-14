@@ -5,7 +5,7 @@
 	?>
 		<tr>
 			<td><?php echo $borrow->id; ?></td>
-			<td><a href="/book/borrow/info/<?php echo $borrow->id?>"><?php echo $borrow->book->title; ?></a></td>
+			<td><a href="/borrow/list/id/<?php echo $borrow->id?>"><?php echo $borrow->book->title; ?></a></td>
 			<td>
 			<?php if ($borrow->reader != null) { ?> 
 				<a href="/reader/info/<?php echo $borrow->reader_id?>">

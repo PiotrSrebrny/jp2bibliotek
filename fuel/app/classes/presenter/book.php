@@ -20,9 +20,9 @@ class Presenter_Book extends Presenter
 		}
 			
 		if (Auth::has_access('book.borrow')) {
-			array_push($items, array('link' => 'book/borrow/borrow', 
+			array_push($items, array('link' => 'borrow', 
 									 'label' => 'Wypożycz'));
-			array_push($items, array('link' => 'book/borrow/list',
+			array_push($items, array('link' => 'borrow/list',
 									 'label' => 'Lista pożyczonych'));
 		}
 
