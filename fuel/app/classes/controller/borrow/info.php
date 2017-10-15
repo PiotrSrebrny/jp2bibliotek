@@ -13,14 +13,41 @@ class Controller_Borrow_Info extends Controller_Template
 	}
 
 	/************************************************************************/
-	private function query_string()
+	static private function query_string()
 	{
 		$query = Uri::build_query_string(Input::get());
-		
+	
 		if (strlen($query) > 0)
 			return  '?' . $query;
-		else 
+		else
 			return '';
+	}
+	
+	/************************************************************************/
+	static private function uri_build($page)
+	{
+		$uri_segments = Uri::segments();
+		
+		$count = count($uri_segments);
+		$uri = '';
+		
+		$segments = $count - ($page == '..' ? 3 : 2);
+
+		if ($segments <= 0) {
+			return $uri;
+		}
+	
+		for ($i = 0; $i < $segments; $i++) {
+			$uri .= '/' . $uri_segments[$i];
+		}
+		
+		if ($page != '..') {
+			$uri .= '/' . $page;
+		}
+		
+		$uri .= Controller_Borrow_Info::query_string();
+		
+		return $uri;
 	}
 	
 	/************************************************************************/
@@ -35,21 +62,22 @@ class Controller_Borrow_Info extends Controller_Template
 	
 		if ($borrow->returned_at == 0)
 			array_push($button_list,
-					array('../return/' . $id . $this->query_string(), 'Zwróć',
+					array($this->uri_build('return/' . $id), 'Zwróć',
 							'onclick' => "return confirm ('Czy napewno zwrócić?')"
 					));
 	
-		array_push($button_list, array('../edit/' . $id . $this->query_string(), 'Edytuj'));
+		array_push($button_list, array($this->uri_build('edit/' . $id), 'Edytuj'));
 		// back button goes to a list
-		array_push($button_list, array('..' . $this->query_string(), 'Wstecz'));
+		array_push($button_list, array($this->uri_build('..'), 'Wstecz'));
 
 		$buttons = View::forge('buttons')
 			->set('offset', 1)
 			->set('buttons', $button_list);
 
 		$this->template->content = View::forge('borrow/borrowinfo')
-			->set('borrow', $borrow);
-
+			->set('borrow', $borrow)
+			->set('current_view', $this->query_string());
+				
 		$this->template->content .= $buttons;
 	}
 	/************************************************************************/
@@ -107,7 +135,6 @@ class Controller_Borrow_Info extends Controller_Template
 		$this->template->content = $form;
 		$this->template->content .= View::forge('buttons')
 			->set('offset', 1)
-			->set('buttons', array(array('../id/' . $id . $this->query_string(), 'Wstecz')));
+			->set('buttons', array(array($this->uri_build('id/' . $id), 'Wstecz')));
 	}
-	
 }
