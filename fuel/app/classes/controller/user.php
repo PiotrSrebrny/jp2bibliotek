@@ -42,8 +42,6 @@ class Controller_User extends Controller_Template
 			->rows_offset($pagination->offset)
 			->rows_limit($pagination->per_page)
 			->get();
-				
-		$current_view = '?' . Uri::build_query_string(Input::get());
 	
 		$data['pagination'] = $pagination;
 		$data['users'] = $users;
@@ -51,8 +49,7 @@ class Controller_User extends Controller_Template
 		$this->template->title = 'Użytkownicy ('. $user_count. ')';
 		$this->template->content = View::forge('userlist')
 			->set('users', $users)
-			->set('pagination', $pagination)
-			->set('current_view', $current_view);
+			->set('pagination', $pagination);
 	}
 	
 

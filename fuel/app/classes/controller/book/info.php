@@ -59,7 +59,7 @@ class Controller_Book_Info extends Controller_Template
 				->set('book', $book)
 				->set('user_id', $user_id)
 				->set('my_url', Uri::current() . \Util\Uri::params())
-				->set('return_url', 'book/list?' . Uri::build_query_string(Input::get()));
+				->set('return_url', 'book/list' . \Util\Uri::params());
 		
 	}
 }
