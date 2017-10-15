@@ -5,10 +5,10 @@
 	?>
 		<tr>
 			<td><?php echo $borrow->id; ?></td>
-			<td><a href="/borrow/list/book/id/<?php echo $borrow->id . $current_view?>"><?php echo $borrow->book->title; ?></a></td>
+			<td><a href="/borrow/list/book/id/<?php echo $borrow->id . \Util\Uri::params()?>"><?php echo $borrow->book->title; ?></a></td>
 			<td>
 			<?php if ($borrow->reader != null) { ?> 
-				<a href="/borrow/list/reader/id/<?php echo $borrow->reader_id . $current_view?>">
+				<a href="/borrow/list/reader/id/<?php echo $borrow->reader_id . \Util\Uri::params()?>">
 				<?php echo $borrow->reader->name; ?>
 				</a>
 			<?php } else { echo "brak"; } ?>

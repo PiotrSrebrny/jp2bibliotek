@@ -14,17 +14,6 @@ class Controller_Reader_Info extends Controller_Template
 	}
 	
 	/************************************************************************/
-	static private function query_string()
-	{
-		$query = Uri::build_query_string(Input::get());
-	
-		if (strlen($query) > 0)
-			return  '?' . $query;
-		else
-			return '';
-	}
-	
-	/************************************************************************/
 	static private function uri_build($page)
 	{
 		$uri_segments = Uri::segments();
@@ -71,8 +60,7 @@ class Controller_Reader_Info extends Controller_Template
 
 		$this->template->content = View::forge('reader/readerinfo')
 			->set('reader', $reader)
-			->set('buttons', $buttons)
-			->set('current_view', $this->query_string());
+			->set('buttons', $buttons);
 	}
 	
 	/************************************************************************/

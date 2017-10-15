@@ -21,7 +21,7 @@
 		<tr>
 			<td><?php echo $reader->id; ?></td>
 			<td>
-				<a href="/reader/list/reader/id/<?php echo $reader->id . $current_view?>">
+				<a href="/reader/list/reader/id/<?php echo $reader->id . \Util\Uri::params()?>">
 				<?php 
 					echo $reader->name;
 					if (isset($reader->birth_date) && ($reader->birth_date != "")) {

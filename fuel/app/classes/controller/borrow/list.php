@@ -12,18 +12,6 @@ class Controller_Borrow_List extends Controller_Template
 	}
 	
 	/************************************************************************/
-	static private function query_string()
-	{
-		$query = Uri::build_query_string(Input::get());
-	
-		if (strlen($query) > 0)
-			return  '?' . $query;
-			else
-				return '';
-	}
-	
-
-	/************************************************************************/
 	public function action_index()
 	{
 		$borrows_count = \Model_Borrow::all()->count();
@@ -46,7 +34,6 @@ class Controller_Borrow_List extends Controller_Template
 		$this->template->title = 'Pożyczone ('. $borrows->count(). ')';
 		$this->template->content = View::forge('borrow/borrowlist')
 			->set('borrows', $borrows->get())
-			->set('pagination', $pagination)
-			->set('current_view', $this->query_string());
+			->set('pagination', $pagination);
 	}
 }

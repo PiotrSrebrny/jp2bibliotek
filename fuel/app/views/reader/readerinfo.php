@@ -64,7 +64,7 @@ use Fuel\Core\Uri;
 			</th>
 			<th class="col-sm-1 text-center"></th>
 			<th class="col-sm-4 text-left">
-				<a href="<?php echo Uri::current() . '/book/id/' .  $borrow->id . $current_view; ?>"> 
+				<a href="<?php echo Uri::current() . '/book/id/' .  $borrow->id . \Util\Uri::params(); ?>"> 
 				<?php echo $borrow->book->title;?> 
 				</a>
 			</th>
@@ -83,7 +83,7 @@ use Fuel\Core\Uri;
 				?>
 			</th>
 			<th class="col-sm-4 text-left">
-				<a href="<?php echo Uri::current() . '/book/id/' . $return->id . $current_view; ?>"> 
+				<a href="<?php echo Uri::current() . '/book/id/' . $return->id . \Util\Uri::params(); ?>"> 
 				<?php echo $return->book->title;?> 
 				</a>
 			</th>

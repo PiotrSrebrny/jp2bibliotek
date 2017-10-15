@@ -11,17 +11,6 @@ class Controller_Reader_List extends Controller_Template
 		if (!Auth::has_access("reader.access"))
 			return Response::redirect('login');
 	}
-
-	/************************************************************************/
-	static private function query_string()
-	{
-		$query = Uri::build_query_string(Input::get());
-	
-		if (strlen($query) > 0)
-			return  '?' . $query;
-			else
-				return '';
-	}
 	
 	/************************************************************************/
 	public function action_index()
@@ -54,8 +43,7 @@ class Controller_Reader_List extends Controller_Template
 		$this->template->title = 'Czytelnicy ('. $readers_count. ')';
 		$this->template->content = View::forge('reader/readerlist')
 			->set('readers', $readers)
-			->set('pagination', $pagination)
-			->set('current_view', $this->query_string());
+			->set('pagination', $pagination);
 	}
 	
 	

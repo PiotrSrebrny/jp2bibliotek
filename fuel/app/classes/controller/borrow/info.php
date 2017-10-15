@@ -11,17 +11,6 @@ class Controller_Borrow_Info extends Controller_Template
 		if (!Auth::has_access("book.borrow"))
 			return Response::redirect('login');
 	}
-
-	/************************************************************************/
-	static private function query_string()
-	{
-		$query = Uri::build_query_string(Input::get());
-	
-		if (strlen($query) > 0)
-			return  '?' . $query;
-		else
-			return '';
-	}
 	
 	/************************************************************************/
 	static private function uri_build($page)
@@ -45,7 +34,7 @@ class Controller_Borrow_Info extends Controller_Template
 			$uri .= '/' . $page;
 		}
 		
-		$uri .= Controller_Borrow_Info::query_string();
+		$uri .= \Util\Uri::params();
 		
 		return $uri;
 	}
@@ -75,8 +64,7 @@ class Controller_Borrow_Info extends Controller_Template
 			->set('buttons', $button_list);
 
 		$this->template->content = View::forge('borrow/borrowinfo')
-			->set('borrow', $borrow)
-			->set('current_view', $this->query_string());
+			->set('borrow', $borrow);
 				
 		$this->template->content .= $buttons;
 	}
