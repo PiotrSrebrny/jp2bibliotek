@@ -31,7 +31,7 @@
     </div>
     
 		<?php 
-		$succes_msgs = \Message\Message::get_success(); 
+		$succes_msgs = \Util\Message::get_success(); 
 		if (count($succes_msgs) > 0) {
 	  ?>
 		<div class="alert alert-success">
@@ -43,7 +43,7 @@
 		} 
 		?>
 		<?php
-		$danger_msgs = \Message\Message::get_danger(); 
+		$danger_msgs = \Util\Message::get_danger(); 
 		if (count($danger_msgs) > 0) {
 		?>
 		<div class="alert alert-danger">

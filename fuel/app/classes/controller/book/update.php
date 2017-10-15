@@ -1,6 +1,6 @@
 <?php
 
-use Message\Message;
+use Util\Message;
 use Fuel\Core\Controller_Template;
 
 class Controller_Book_Update extends Controller_Template

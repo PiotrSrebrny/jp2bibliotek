@@ -1,6 +1,6 @@
 <?php
 
-use Message\Message;
+use Util\Message;
 
 class Controller_Borrow_Info extends Controller_Template
 {

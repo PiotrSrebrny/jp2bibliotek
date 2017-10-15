@@ -3,7 +3,7 @@
 use Fuel\Core\Controller_Template;
 use Fuel\Core\View;
 use Model\Book;
-use Message\Message;
+use Util\Message;
 
 class Controller_Book_Search extends Controller_Template
 {	

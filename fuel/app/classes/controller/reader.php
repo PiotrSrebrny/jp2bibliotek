@@ -6,7 +6,7 @@ use Fuel\Core\Input;
 use Fuel\Core\Fieldset;
 use Fuel\Core\Fieldset_Field;
 use Auth\Auth;
-use Message\Message;
+use Util\Message;
 use Fuel\Core\Controller_Template;
 
 class Controller_Reader extends Controller_Template

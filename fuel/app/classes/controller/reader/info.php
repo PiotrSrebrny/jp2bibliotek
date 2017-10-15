@@ -1,7 +1,7 @@
 <?php
 
 
-use Message\Message;
+use Util\Message;
 
 class Controller_Reader_Info extends Controller_Template
 {

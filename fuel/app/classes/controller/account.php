@@ -7,7 +7,7 @@ use Fuel\Core\Fieldset;
 use Fuel\Core\Validation;
 use Auth\Auth;
 use Auth\Auth_Driver;
-use Message\Message;
+use Util\Message;
 
 class Controller_Account extends Controller_Template
 {
@@ -77,7 +77,7 @@ class Controller_Account extends Controller_Template
 				'fullname' => $form->input('fullname')
 				));
 		
-			\Message\Message::add_success('Zaktualizowano ustawienia konta');
+			\Util\Message::add_success('Zaktualizowano ustawienia konta');
 			
 			Response::redirect('account');
 		}

@@ -1,6 +1,6 @@
 <?php
 
-use Message\Message;
+use Util\Message;
 
 class Controller_Reader_Create extends Controller_Template
 {

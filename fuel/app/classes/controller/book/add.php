@@ -10,7 +10,7 @@ use Fuel\Core\Validation;
 use Auth\Auth;
 use Model\Book;
 use Fuel\Core\Model;
-use Message\Message;
+use Util\Message;
 
 class ValidationTagRule
 {

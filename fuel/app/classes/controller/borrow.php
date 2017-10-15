@@ -7,7 +7,7 @@ use Fuel\Core\Fieldset;
 use Fuel\Core\Fieldset_Field;
 use Fuel\Core\View;
 use Auth\Auth;
-use Message\Message;
+use Util\Message;
 
 class ValidationRules
 {

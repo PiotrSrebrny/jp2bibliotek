@@ -5,7 +5,7 @@ use Fuel\Core\Response;
 use Fuel\Core\View;
 use Model\Books;
 use Auth\Auth;
-use Message\Message;
+use Util\Message;
 
 class Controller_Login extends Controller_Template
 {
@@ -20,12 +20,12 @@ class Controller_Login extends Controller_Template
 			if (Auth::login()) 
 			{
 				if (Auth::member(-1)) {
-					\Message\Message::add_danger('Dostęp zablokowany');
+					\Util\Message::add_danger('Dostęp zablokowany');
 					Auth::logout();
 				} 
 				else
 				{
-					\Message\Message::add_success('Zalogowano');
+					\Util\Message::add_success('Zalogowano');
 				}
 				// Credentials ok, go right in.
 				Response::redirect('home');

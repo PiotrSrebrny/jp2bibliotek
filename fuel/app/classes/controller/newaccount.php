@@ -9,7 +9,7 @@ use Fuel\Core\Validation;
 use Auth\Auth;
 use Auth\Auth_Driver;
 use Auth\Model;
-use Message\Message;
+use Util\Message;
 
 
 class Controller_Newaccount extends Controller_Template
