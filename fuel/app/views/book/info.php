@@ -62,10 +62,10 @@ $type_choice = array(
 		echo Html::anchor($return_url, 'Wstecz', array('class' => 'btn btn-default'));		
 	
 	if (Auth::has_access('book.update'))
-		echo Html::anchor('book/update/edit/'.$book->id .'?'. Uri::build_query_string(Input::get()), 'Edytuj', array('class' => 'btn btn-default'));
+		echo Html::anchor('book/update/edit/'.$book->id . \Util\Uri::params(), 'Edytuj', array('class' => 'btn btn-default'));
 	
 	if (Auth::has_access('book.update'))
-		echo Html::anchor('book/update/remove/'.$book->id .'?'. Uri::build_query_string(Input::get()), 'Usuń', 
+		echo Html::anchor('book/update/remove/'.$book->id .\Util\Uri::params(), 'Usuń', 
 				array('class' => 'btn btn-default', 
 					  'onclick' => "return confirm ('Czy napewno usunać?')"));
 	?>

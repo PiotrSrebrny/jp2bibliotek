@@ -58,7 +58,7 @@ class Controller_Book_Info extends Controller_Template
 			Presenter::forge('book/info')
 				->set('book', $book)
 				->set('user_id', $user_id)
-				->set('my_url', Uri::current() . '?' . Uri::build_query_string(Input::get()))
+				->set('my_url', Uri::current() . \Util\Uri::params())
 				->set('return_url', 'book/list?' . Uri::build_query_string(Input::get()));
 		
 	}

@@ -186,15 +186,15 @@ class Controller_Book_Update extends Controller_Template
 
 			$this->template->content =
 			View::forge('book/edit', $this->post($book))
-				->set('return_url', 'book/info/view/' . $book_id. '?' . Uri::build_query_string(Input::get()))
-				->set('submit_url', Uri::current() . '?' . Uri::build_query_string(Input::get()));
+				->set('return_url', 'book/info/view/' . $book_id. \Util\Uri::params())
+				->set('submit_url', Uri::current() . \Util\Uri::params());
 				
 		} else {
 			$this->template->content =
 				Presenter::forge('book/edit', 'view_from_db')
 			->set('book_id', $book_id)
-			->set('return_url', 'book/info/view/' . $book_id . '?' . Uri::build_query_string(Input::get()))
-			->set('submit_url', Uri::current() . '?' . Uri::build_query_string(Input::get()));
+			->set('return_url', 'book/info/view/' . $book_id . \Util\Uri::params())
+			->set('submit_url', Uri::current() . \Util\Uri::params());
 		}
 
 		$this->template->title = 'Ksiazka';
@@ -210,6 +210,6 @@ class Controller_Book_Update extends Controller_Template
 
 		$book->delete();
 
-		Response::redirect('book/list?' . Uri::build_query_string(Input::get()));
+		Response::redirect('book/list' . \Util\Uri::params());
 	}
 }

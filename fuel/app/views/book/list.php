@@ -20,7 +20,7 @@
 	<?php foreach ($books as $book): ?>
 		<tr>
 			<?php if (Auth::has_access('book.update')) echo '<td>'.$book->tag.'</td>' ?>
-			<td><?php echo Html::anchor('book/info/view/'.$book['id'] . $current_view, $book->title); ?></td>
+			<td><?php echo Html::anchor('book/info/view/'.$book['id'] . \Util\Uri::params(), $book->title); ?></td>
 			<td><?php 
 				$first = true;
 				foreach ($book->authors as $author) {

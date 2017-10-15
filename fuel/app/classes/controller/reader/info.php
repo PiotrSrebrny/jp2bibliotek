@@ -34,13 +34,10 @@ class Controller_Reader_Info extends Controller_Template
 		if ($page != '..') {
 			$uri .= '/' . $page;
 		}
+
+		$uri .= \Util\Uri::params();
 	
-		$query = Uri::build_query_string(Input::get());
-			
-		if (strlen($query) > 0)
-			$uri .= '?' . $query;
-	
-			return $uri;
+		return $uri;
 	}
 	
 	/************************************************************************/

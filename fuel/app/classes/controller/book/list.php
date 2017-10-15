@@ -54,8 +54,6 @@ class Controller_Book_List extends Controller_Template
 		 */
 		foreach ($books as $book)
 			$book->get_authors();
-
-		$current_view = '?' . Uri::build_query_string(Input::get());
 		
 		$data['pagination'] = $pagination;
 		$data['books'] = $books;
@@ -64,7 +62,6 @@ class Controller_Book_List extends Controller_Template
 		$this->template->title = 'Wyszukane ksiażki ('. $books_count. ')';
 		$this->template->content = View::forge('book/list')
 			->set('books', $books)
-			->set('pagination', $pagination)
-			->set('current_view', $current_view);
+			->set('pagination', $pagination);
 	}
 }
