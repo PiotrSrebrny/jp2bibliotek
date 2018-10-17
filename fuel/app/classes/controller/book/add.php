@@ -12,13 +12,70 @@ use Model\Book;
 use Fuel\Core\Model;
 use Util\Message;
 
-class ValidationTagRule
+class ValidationRule
 {
-	public static function _validation_unique_tag($val)
+	public static function _validation_type_valid($val)
 	{
-		Validation::active()->set_message('unique_tag', 'Wybrany identifikator jest już wykorzystany');
+		Validation::active()
+			->set_message(
+				'type_valid',
+				'Wybierz rodzaj');
+	
+		return 
+			$val == 'a' ||
+			$val == 'r' || 
+			$val == 'd';
+	}
+	
+	public static function _validation_tag_unique($val)
+	{
+		Validation::active()
+			->set_message(
+					'tag_unique', 
+					'Wybrany identifikator jest już wykorzystany');
 		
 		return !Model_Book::has_tag($val);
+	}
+	
+	public static function _validation_tag_syntax($val)
+	{
+		if ($val != ltrim($val)) {
+			Validation::active()
+				->set_message(
+						'tag_syntax', 
+						'Identyfikator nie może zawierać spacji na początku');
+			return false;
+		}
+		
+		if ($val != rtrim($val)) {
+			Validation::active()
+				->set_message(
+						'tag_syntax', 
+						'Identyfikator nie może zawierać spacji na końcu');
+			return false;
+		}
+		
+		$number = substr($val, 0, strlen($val) - 1);
+
+		if (!is_numeric($number)) {
+			Validation::active()
+				->set_message(
+						'tag_syntax', 
+						'Identyfikator może składać się tylko z cyfr i litery na końcu');
+			return false;
+		}
+		
+		$type = $val[strlen($val) - 1];
+		
+		if ($type != 'a' && $type != 'r' && $type != 'd') {
+			Validation::active()
+				->set_message(
+					'tag_syntax',
+					'Indentyfikator może tylko kończyc się literą a, r, lub d');
+			return false;
+		}
+		
+		return true;
 	}
 }
 
@@ -69,12 +126,16 @@ class Controller_Book_Add extends Controller_Template
 			}
 			
 			if (Input::post('save_book')) {
+				
 				/*
 				 * Simple validation
 				 */
-				$val->add_callable('ValidationTagRule');
+				$val->add_callable('ValidationRule');
 				$val->add_field('title', 'Tytuł', 'required');
-				$val->add_field('tag', 'Identifikator', 'required|unique_tag');
+				$val->add_field('type', 'Rodzaj', 
+						'required|type_valid');
+				$val->add_field('tag', 'Identifikator', 
+						'required|tag_unique|tag_syntax');
 				
 				/*
 				 * If no error found in the form
