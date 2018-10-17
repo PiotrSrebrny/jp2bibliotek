@@ -55,13 +55,17 @@ class Model_Book extends Orm\Model
 	/************************************************************************/
 	public static function get_last_tag($type)
 	{
-		$last_book = parent::find('last', array(
-				'where' => array(
-						array('type', $type)
-				)
-			));
+		$count = parent::query()->where('type', '=', $type)->count();
+
+		$last_book = parent::query()
+			->where('type','=',$type)
+			->order_by(DB::expr('length(tag),tag'))
+			->limit(1)
+			->offset($count - 1)
+			->get();
 		
-		return $last_book['tag'];
+		return sizeof($last_book) >= 1 ? 
+			array_pop($last_book)['tag'] : '';
 	}
 	
 	/************************************************************************/
@@ -70,16 +74,16 @@ class Model_Book extends Orm\Model
 		$query = parent::query();
 		$query = $query->where('title', 'like', '%'.$title.'%');
 		
- 		if ($type != 'x') {
- 			$query = $query->where('type', '=', $type);
- 		}
-			
-		$query = $query->related('authors')
-					->where('authors.name', 'like', '%'.$author.'%');
+  		if ($type != 'x') {
+  			$query = $query->where('type', '=', $type);
+  		}
+  		
+ 		$query = $query->related('authors')
+ 					->where('authors.name', 'like', '%'.$author.'%');
 		
 		return $query;
 	}
-
+	
 	/************************************************************************/
 	public function is_borrowed()
 	{

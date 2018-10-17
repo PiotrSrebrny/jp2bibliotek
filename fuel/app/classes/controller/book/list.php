@@ -21,12 +21,12 @@ class Controller_Book_List extends Controller_Template
 		$books_count = Model_Book::query_like($title, $author, $type)->count();
 		
 		$num_links = 8;
-		$show_first_and_last =  ($books_count / 10) > $num_links;
+		$show_first_and_last =  ($books_count / 100) > $num_links;
 		
 		$pagination = Pagination::forge('mypagination', 
 				array(
 						'total_items'    => $books_count,
-						'per_page'       => 10,
+						'per_page'       => 100,
 						'uri_segment'    => 'page',
 						'num_links'      => $num_links,
 						'show_first'     => $show_first_and_last,
@@ -41,11 +41,13 @@ class Controller_Book_List extends Controller_Template
 		
 		$books = 
 			Model_Book::query_like($title, $author, $type)
-				->rows_offset($pagination->offset)
-				->rows_limit($pagination->per_page)
 				->order_by($order_type)
 				->get();
-			
+
+		$books = array_slice($books, 
+							 $pagination->offset,
+							 $pagination->per_page);
+		
 		/* 
 		 * Have to go through book authors,
 		 * since after changing author number 
@@ -54,7 +56,7 @@ class Controller_Book_List extends Controller_Template
 		 */
 		foreach ($books as $book)
 			$book->get_authors();
-		
+			
 		$data['pagination'] = $pagination;
 		$data['books'] = $books;
 		

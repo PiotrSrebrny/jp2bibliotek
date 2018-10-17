@@ -17,12 +17,12 @@ class Controller_Borrow_List extends Controller_Template
 		$borrows_count = \Model_Borrow::all()->count();
 	
 		$num_links = 8;
-		$show_first_and_last = ($borrows_count / 10) > $num_links;
+		$show_first_and_last = ($borrows_count / 100) > $num_links;
 	
 		$pagination = Pagination::forge('mypagination',
 				array(
 						'total_items'    => $borrows_count,
-						'per_page'       => 10,
+						'per_page'       => 100,
 						'uri_segment'    => 'page',
 						'num_links'      => $num_links,
 						'show_first'     => $show_first_and_last,
@@ -30,10 +30,13 @@ class Controller_Borrow_List extends Controller_Template
 				));
 	
 		$borrows = \Model_Borrow::all();
-	
+		
 		$this->template->title = 'Pożyczone ('. $borrows->count(). ')';
 		$this->template->content = View::forge('borrow/borrowlist')
-			->set('borrows', $borrows->get())
+			->set('borrows', $borrows
+								->offset($pagination->offset)
+								->limit($pagination->per_page)
+								->get())
 			->set('pagination', $pagination);
 	}
 }

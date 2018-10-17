@@ -32,7 +32,7 @@
     
 		<?php 
 		$succes_msgs = \Util\Message::get_success(); 
-		if (count($succes_msgs) > 0) {
+		if (isset($succes_msgs) && count($succes_msgs) > 0) {
 	  ?>
 		<div class="alert alert-success">
 			<?php foreach ($succes_msgs as $success)
@@ -44,7 +44,7 @@
 		?>
 		<?php
 		$danger_msgs = \Util\Message::get_danger(); 
-		if (count($danger_msgs) > 0) {
+		if (isset($danger_msgs) && count($danger_msgs) > 0) {
 		?>
 		<div class="alert alert-danger">
 			<?php foreach ($danger_msgs as $danger)
