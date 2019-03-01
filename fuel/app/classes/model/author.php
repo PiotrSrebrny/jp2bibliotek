@@ -23,8 +23,8 @@ class Model_Author extends Orm\Model
 	{
 		return parent::query()
 		->where('name', 'like', '%'.$author.'%')
-		->limit($num)
 		->order_by('name')
+		->limit($num)
 		->get();
 	}
 }

@@ -25,40 +25,37 @@ $type_choice = array(
       	<?php echo Form::input('title', htmlspecialchars($title_in),array('class'=>'form-control', 'placeholder'=>'Tytuł ksiażki')); ?>
       </div>
     </div>
-    
-    <?php
-    $one_author = count($authors_in) == 1;
-    
-    for ($aid = 0; $aid < count($authors_in); $aid++) {
-    		$alabel = $one_author ? 'Autor' : 'Autor '.($aid + 1);
-    		$anamed_id = 'author_'.$authors_in[$aid]['id'];
-    		$adel_id = 'delauthor_'.$authors_in[$aid]['id'];
-    		
-    ?>
-    
-	    <div class="form-group	<?php if (isset($error[$anamed_id])) echo "has-error";?>">
-	      <?php echo Form::label($alabel, $anamed_id, array('class'=>'col-sm-2 control-label')); ?>
-	      <div class="col-sm-4">
-	      	<?php echo Form::input($anamed_id, $authors_in[$aid]['name'], 
-	      			array('class'=>'form-control', 
-	      						'placeholder'=>'Autor książki',
-	      					  'readonly' => !($authors_in[$aid]['active']),
-	      						'onkeyup' => 'lookUp(this, \'authors\')'
-	      	))
-	      	 ?>
-	      </div>
-	      <div class="row">
-	      	<?php 
-	      	if ($one_author == false)
-	      		echo Form::submit($adel_id, 'usun autora', array('class' => 'btn btn-default'));
-	      	
-	      	if (($aid + 1) == count($authors_in))
-		      	echo Form::submit('add_author', 'dodaj autora', array('class' => 'btn btn-default'));
-	      	?>
-	      	
-	      </div>
-	    </div>
-	  <?php } ?>
+
+    <div id="form_authors">
+			
+			<?php
+			for ($aid = 0; $aid < count($authors_in); $aid++) {
+					$input_id = 'author_'.$authors_in[$aid]['id'];
+					$field_id = 'form_author_'.$authors_in[$aid]['id'];
+					$name = $authors_in[$aid]['name']
+			?>
+			
+			<div id="<?php echo $field_id?>" class="form-group	<?php if (isset($error[$input_id])) echo "has-error";?>">
+				<?php echo Form::label("Autor", null, array('class'=>'col-sm-2 control-label')); ?>
+				<div class="col-sm-4">
+					<?php echo Form::input($input_id, $name, 
+							array('id' => $input_id,
+										'class'=>'form-control', 
+										'placeholder'=>'Autor książki',
+										'onkeyup' => 'lookUp(this, \'authors\')'
+					))
+					?>
+				</div>
+				<label class="btn btn-default" onclick="deleteAuthorField('<?php echo $field_id?>')">Usuń</label>
+			</div>
+			<?php } ?>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-4">
+				<label class="btn btn-default" onclick="createAuthorField()">Dodaj autora</label>
+			</div>
+		</div>
 
     <div class="form-group <?php if (isset($error['tag'])) echo "has-error";?>">
       <?php echo Form::label('Identifikator', 'tag', array('class'=>'col-sm-2 control-label')); ?>
@@ -94,3 +91,4 @@ $type_choice = array(
   </fieldset>
 
 <?php echo Form::close(); ?>
+<?php echo Asset::js('book.js'); ?>

@@ -16,7 +16,6 @@ class Controller_Book_Update extends Controller_Template
 	private function post($book)
 	{
 		$authors = array();
-		$free_ids = array('a', 'b', 'c', 'd');
 		
 		foreach (Input::post() as $key => $value) {
 			$split_key = explode('_', $key);
@@ -25,25 +24,13 @@ class Controller_Book_Update extends Controller_Template
 		
 				$author['id'] = $split_key[1];
 				$author['name'] = $value;
-		
-				if (is_numeric($split_key[1])) {
-					$author['active'] = false;
-		
-				} else {
-					$author['active'] = true;
-		
-					/* Remove from free id */
-					for ($i = 0; $i < count($free_ids); $i++)
-						if (strcmp($free_ids[$i], $split_key[1]) == 0)
-							array_splice($free_ids, $i, 1);
-		
-				}
+
 				array_push($authors, $author);
 			}
 		}
 		
 		if (Input::post('save_book')) {
-			
+	
 			if (!Input::post('tag')) {
 				$error['tag'] = true;
 		
@@ -78,15 +65,6 @@ class Controller_Book_Update extends Controller_Template
 				$book_author_ids = array();
 					
 				foreach ($authors as $author) {
-					/*
-					 * The numeric ids carry former authors
-					 * of the book, only alphabetical
-					 * ids have new authors.
-					 */
-					if (is_numeric($author['id'])) {
-						array_push($book_author_ids, $author['id']);
-						continue;
-					}
 
 					$author_entry = Model_Author::get_author_by_name($author['name']);
 
@@ -100,7 +78,7 @@ class Controller_Book_Update extends Controller_Template
 						$new_author = new Model_Author();
 						$new_author->name = $author['name'];
 						$new_author->save();
-							
+
 						$book->authors[] = $new_author;
 							
 						array_push($book_author_ids, $new_author->id);
@@ -112,7 +90,7 @@ class Controller_Book_Update extends Controller_Template
 					}
 
 				}
-					
+
 				/*
 				 * Drop those authors that were removed
 				 * from the book author list
@@ -135,33 +113,6 @@ class Controller_Book_Update extends Controller_Template
 
 				Message::add_success('Wprowadzono zmiany');
 			}
-
-		} else if (Input::post('add_author')) {
-		
-			if (count($free_ids) > 0)
-				array_push($authors, array(
-						'name' => '',
-						'id' => $free_ids[0],
-						'active' => true
-				));
-		
-		} else {
-			/*
-			 * Was author deletion requested?
-			 */
-			foreach (Input::post() as $key => $value) {
-				$split_key = explode('_', $key);
-		
-				if ($split_key[0] == 'delauthor')
-					for ($i = 0; $i < count($authors); $i++)
-						if (strcmp($authors[$i]['id'], $split_key[1]) == 0) {
-							array_splice($authors, $i, 1);
-		
-							break;
-						}
-						
-			}
-		
 		}
 		
 		$data['tag_in'] = Input::post('tag');
@@ -172,7 +123,7 @@ class Controller_Book_Update extends Controller_Template
 		if (isset($error))
 			$data['error'] = $error;
 		
-			return $data;
+		return $data;
 	}
 	
 	public function action_edit($book_id)

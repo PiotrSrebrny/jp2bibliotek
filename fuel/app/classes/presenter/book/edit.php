@@ -11,8 +11,7 @@ class Presenter_Book_Edit extends Presenter
 	{
 		$authors_in = array();
 		$authors_in[0]['name'] = '';
-		$authors_in[0]['active'] = true;
-		$authors_in[0]['id'] = 'a';
+		$authors_in[0]['id'] = '0';
 		
 		$this->tag_in = '';
 		$this->title_in = '';
@@ -35,7 +34,6 @@ class Presenter_Book_Edit extends Presenter
 		foreach ($authors as $author) {
 			$author_in['name'] = $author->name;
 			$author_in['id'] = $author->id;
-			$author_in['active'] = false;
 			array_push($authors_in, $author_in);
 		}
 		

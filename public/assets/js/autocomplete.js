@@ -1,13 +1,15 @@
 function lookUp(input_element, type) 
 {
 	var str = encodeURIComponent(input_element.value);
-	$.get("/dbquery/" + type + "/"+ str, function(data, status) {
-		cache: false
-		if (status == "success") {
-      $('#ac_div').html(data);
-			$("#"  + input_element.id).autocomplete({ source:auto })
-		}
-  });
+	if (str.length > 2) {
+		$.get("/dbquery/" + type + "/"+ str, function(data, status) {
+			cache: false
+			if (status == "success") {
+				$('#ac_div').html(data);
+				$("#"  + input_element.id).autocomplete({ source:auto })
+			}
+		});
+	}
 }
 
 function getLastTag()
