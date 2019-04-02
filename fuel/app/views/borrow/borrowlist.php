@@ -5,7 +5,8 @@
 	?>
 		<tr>
 			<td><?php echo $borrow->id; ?></td>
-			<td><a href="/borrow/list/book/id/<?php echo $borrow->id . \Util\Uri::params()?>"><?php echo $borrow->book->title; ?></a></td>
+			<td><a href="/borrow/list/book/id/<?php echo $borrow->id . \Util\Uri::params()?>">
+				<?php echo is_null($borrow->book) ? "książka usunięta" : $borrow->book->title; ?></a></td>
 			<td>
 			<?php if ($borrow->reader != null) { ?> 
 				<a href="/borrow/list/reader/id/<?php echo $borrow->reader_id . \Util\Uri::params()?>">

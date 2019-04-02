@@ -110,7 +110,7 @@ class Controller_Borrow_Info extends Controller_Template
 
 		$input = array (
 				'book_tag' => $borrow->id,
-				'book' => $borrow->book->title,
+				'book' => is_null($borrow->book) ? "książka usunięta" : $borrow->book->title,
 				'reader' => $borrow->reader->name,
 				'borrowed_at' => Date::forge($borrow->borrowed_at)->format("%d.%m.%y"),
 				'returned_at' => Date::forge($borrow->returned_at)->format("%d.%m.%y"),

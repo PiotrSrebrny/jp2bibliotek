@@ -65,7 +65,7 @@ use Fuel\Core\Uri;
 			<th class="col-sm-1 text-center"></th>
 			<th class="col-sm-4 text-left">
 				<a href="<?php echo Uri::current() . '/book/id/' .  $borrow->id . \Util\Uri::params(); ?>"> 
-				<?php echo $borrow->book->title;?> 
+				<?php echo is_null($borrow->book) ? "książka usunięta" : $borrow->book->title;?> 
 				</a>
 			</th>
 		</tr>
