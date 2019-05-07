@@ -54,7 +54,10 @@ class Model_Book extends Orm\Model
 	/************************************************************************/
 	public static function get_last_tag($type)
 	{
-		$count = parent::query()->where('type', '=', $type)->count();
+		$count = parent::query()
+			->where('type', '=', $type)
+			->where('removed', '=', false)
+			->count();
 
 		$last_book = parent::query()
 			->where('type','=', $type)
