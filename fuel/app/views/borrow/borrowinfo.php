@@ -23,7 +23,8 @@
 
 <tr>
 	<th class="col-sm-1 text-right">Książka</th>
-	<th class="col-sm-4"><?php echo $borrow->book->title; ?></th>
+	<th class="col-sm-4"><?php echo $borrow->book->title; ?>
+	<?php if ($borrow->book->removed) { echo "(usunięta)"; }?></th>
 </tr>
 
 <tr>

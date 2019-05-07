@@ -5,12 +5,7 @@
 <div class="col-sm-8">
 
 <table class="table table-hover">
-<!-- 
-<tr>
-	<th class="col-sm-1 text-right">Tytuł</th>
-	<th class="col-sm-4"><?php echo $book->title ?></th>
-</tr>
- -->
+
 <?php 
 	$author_id = 0;
 	foreach($book->authors as $author) {

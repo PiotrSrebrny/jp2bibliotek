@@ -53,7 +53,11 @@ class Controller_Book_Info extends Controller_Template
 			}
 		}
 		
-		$this->template->title = strlen($book->title) == 1 ? "Brak tytułu" : $book->title;
+		$title = strlen($book->title) == 1 ? "Brak tytułu" : $book->title;
+		if ($book->removed) {
+			$title .= " (usunięta)";
+		}
+		$this->template->title = $title;
 		$this->template->content = 
 			Presenter::forge('book/info')
 				->set('book', $book)
