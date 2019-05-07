@@ -159,7 +159,29 @@ class Controller_Book_Update extends Controller_Template
 		if ($book == null)
 			Response::redirect('book');
 
-		$book->delete();
+		if ($book->removed)
+			Response::redirect('book');
+		
+		$book->removed = true;
+		$old_book_tag = $book->tag;
+		$success = false;
+		$i = 0;
+		while ($i < 999) {
+			try {
+				$book->tag = '_' . $old_book_tag . '_' . $i++;
+				$book->save();
+			} catch (Exception $e) {
+				continue;
+			}
+			$success = true;
+			break;
+		}
+
+		if ($success)  {
+			Message::add_success('Usunięto książkę');
+		} else {
+			Message::add_success('Nie udało się usunąć książki');
+		}
 
 		Response::redirect('book/list' . \Util\Uri::params());
 	}

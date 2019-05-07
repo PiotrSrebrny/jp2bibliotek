@@ -1,26 +1,27 @@
 <?php
-return array(
+return array (
   'version' => 
-  array(
+  array (
     'app' => 
-    array(
+    array (
       'default' => 
-      array(
+      array (
         0 => '001_bookdb_create_booktable',
         1 => '002_bookdb_create_authortable',
         2 => '003_bookdb_create_authorsbookstable',
         3 => '004_bookdb_create_commenttable',
         4 => '005_bookdb_create_readertable',
         5 => '006_bookdb_create_borrowtable',
+        6 => '007_bookdb_booktable_addremoved',
       ),
     ),
     'module' => 
-    array(
+    array (
     ),
     'package' => 
-    array(
+    array (
       'auth' => 
-      array(
+      array (
         0 => '001_auth_create_usertables',
         1 => '002_auth_create_grouptables',
         2 => '003_auth_create_roletables',

@@ -6,7 +6,8 @@ use Fuel\Core\DBUtil;
 
 class Model_Book extends Orm\Model
 {	
-	protected static $_properties = array('id', 'title', 'type', 'tag', 'holder_id');
+	protected static $_properties = 
+		array('id', 'title', 'type', 'tag', 'holder_id', 'removed');
 	
 	protected static $_many_many = array('authors');
 	protected static $_has_many = array('comments');
@@ -15,9 +16,7 @@ class Model_Book extends Orm\Model
 	public static function has_tag($tag)
 	{
 		$exist = parent::find('first', array(
-				'where' => array(
-						array('tag', $tag)
-				)
+				'where' => array(array('tag', $tag))
 			));
 		
 		return ($exist != null);
@@ -27,9 +26,8 @@ class Model_Book extends Orm\Model
 	public static function get_by_tag($tag)
 	{
 		return parent::find('first', array(
-				'where' => array(
-						array('tag', $tag)
-				)));
+				'where' => array(array('tag', $tag))
+			));
 	}
 	
 	/************************************************************************/
@@ -47,6 +45,7 @@ class Model_Book extends Orm\Model
 	{
 		return parent::query()
 			->where('title', 'like', '%'.$title.'%')
+			->where('removed', '=', false)
 			->limit($num)
 			->order_by('title')
 			->get();
@@ -58,7 +57,8 @@ class Model_Book extends Orm\Model
 		$count = parent::query()->where('type', '=', $type)->count();
 
 		$last_book = parent::query()
-			->where('type','=',$type)
+			->where('type','=', $type)
+			->where('removed', '=', false)
 			->order_by(DB::expr('length(tag),tag'))
 			->limit(1)
 			->offset($count - 1)
@@ -73,7 +73,8 @@ class Model_Book extends Orm\Model
 	{
 		$query = parent::query();
 		$query = $query->where('title', 'like', '%'.$title.'%');
-		
+		$query = $query->where('removed', '=', false);
+
   		if ($type != 'x') {
   			$query = $query->where('type', '=', $type);
   		}

@@ -150,6 +150,7 @@ class Controller_Book_Add extends Controller_Template
 				$new_book->tag = Input::post('tag');
 				$new_book->type = Input::post('type');
 				$new_book->holder_id = 0;
+				$new_book->removed = false;
 				
 				/* Store all authors */
 				foreach ($authors as $author) {
