@@ -12,6 +12,7 @@ return array(
         3 => '004_bookdb_create_commenttable',
         4 => '005_bookdb_create_readertable',
         5 => '006_bookdb_create_borrowtable',
+        6 => '007_bookdb_booktable_addremoved',
       ),
     ),
     'module' => 
